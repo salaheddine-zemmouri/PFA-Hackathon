@@ -1,0 +1,17 @@
+Utilisateur
+    nom
+    prenom
+    email
+    password
+    user_type // -> ['Administrator','Evaluator','Student']
+    user_id
+
+Administrator
+    id
+
+Evaluator
+    id
+
+Student
+    id
+    etablissement

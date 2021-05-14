@@ -1,0 +1,157 @@
+*{
+  box-sizing: border-box;
+  margin:0;
+  padding: 0;
+}
+/*
+
+-----------------------------------
+            LANDING
+-----------------------------------
+
+*/
+.my-btn{
+  padding: 0 1.5rem;
+  background-color: #3F3D56;
+}
+
+.welcome{
+  margin-top: 4rem;
+}
+
+
+.hero-sub-text{
+  letter-spacing: 5.5px;
+  font-size: 1.8rem;
+}
+
+.hero-paragraph{
+  font-size: 18px;
+  line-height: 30px;
+  color: #505F98;
+}
+
+.second_hero{
+  z-index: -1;
+  width: 50%;
+  height: 90%;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.path{
+  position: absolute;
+  right: 0;
+  width: 95%;
+  height: 100%;
+}
+
+/*
+
+-----------------------------------
+            LOGIN
+-----------------------------------
+
+*/
+label{
+  color: #6C63FF;
+}
+.h-full{
+ height: 100vh;
+}
+.btn-circle{
+ border-radius: 20px;
+ background-color: #3F3D56;
+ display: block;
+ margin: 0 auto;
+}
+input,.google-div{
+  border-radius: 20px;
+  color: black;
+}
+.google-logo{
+ width: 25px;
+}
+.color-primary{
+ color: #6C63FF;
+}
+
+.or-container {
+  color: #ccc;
+}
+
+.line-separator {
+  background-color: #ccc;
+  height: 1px;
+}
+
+.form-container{
+  border-radius: 15px;
+  box-shadow :0 2px 3px rgb(0 0 0 / 50%)   ;
+}
+
+/*
+---------------------------------
+    CUSTOM RADIO BUTTONS
+---------------------------------
+*/
+.custom-radio input {
+  display: none;
+}
+
+.radio-btn {
+  margin: 10px;
+  width: 80px;
+  height: 80px;
+  border: 3px solid transparent;
+  display: inline-block;
+  border-radius: 100px;
+  position: relative;
+  text-align: center;
+  box-shadow: 0 0 20px #c3c3c367;
+  cursor: pointer;
+}
+
+.radio-btn > i {
+  color: #ffffff;
+  background-color: #8373e6;
+  font-size: 20px;
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 50px;
+  padding: 3px;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.radio-btn .user-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.radio-btn .user-icon i {
+  color: #8373e6;
+  line-height: 80px;
+  font-size: 60px;
+}
+
+.radio-btn .user-icon h3 {
+  color: #8373e6;
+  font-family: "Raleway", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.custom-radio input:checked + .radio-btn {
+  border: 3px solid #8373e6;
+}
+
+.custom-radio input:checked + .radio-btn > i {
+  opacity: 1;
+  transform: translateX(-50%);
+}
