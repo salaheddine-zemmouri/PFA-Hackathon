@@ -46,6 +46,21 @@ return [
             'provider' => 'users',
             'hash' => false,
         ],
+
+        'administrator' => [
+            'driver' => 'session',
+            'provider' => 'administrators',
+        ],
+
+        'evaluator' => [
+            'driver' => 'session',
+            'provider' => 'evaluators',
+        ],
+
+        'contestant' => [
+            'driver' => 'session',
+            'provider' => 'contestants',
+        ],
     ],
 
     /*
@@ -69,6 +84,21 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
+        ],
+
+        'administrators' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Administrator::class,
+        ],
+
+        'evaluators' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Evaluator::class,
+        ],
+
+        'contestants' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Contestant::class,
         ],
 
         // 'users' => [

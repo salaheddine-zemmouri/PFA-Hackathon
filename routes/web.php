@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\Auth\LoginController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,6 +21,4 @@ Route::get('/', function () {
 });
 
 
-Route::get('/login', function () {
-    return view('auth.login');
-})->name('login');
+Route::get('/login',[LoginController::class,'showAdminLoginForm'])->name('login');
