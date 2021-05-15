@@ -90,6 +90,10 @@ input,.google-div{
   box-shadow :0 2px 3px rgb(0 0 0 / 50%)   ;
 }
 
+.text-black{
+  color: black;
+}
+
 /*
 ---------------------------------
     CUSTOM RADIO BUTTONS

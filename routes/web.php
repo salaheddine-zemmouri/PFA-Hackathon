@@ -4,7 +4,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Auth\LoginController;
-
+use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\Auth\RegisterController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,17 +16,24 @@ use App\Http\Controllers\Auth\LoginController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/home/{user}', function ($user) {
-    dd(Auth::guard($user)->user());
+Route::get('/home',function(){
+  dd(Auth::guard('contestant')->user());;
 })->name('home');
+
+// Route::get('/dashboard/{user}', function ($user) {
+//
+// })->name('home');
 
 
 Route::get('/', function () {
     return view('landing');
-});
+})->name('home');
 
 
-Route::get('/login',[LoginController::class,'showAdminLoginForm'])->name('login');
-
+Route::get('/login',[LoginController::class,'index'])->name('login');
 Route::post('/login',[LoginController::class,'loginUser']);
+
+Route::get('/register',[RegisterController::class,'create'])->name('register');
+Route::post('/register',[RegisterController::class,'store']);
+
+Route::get('/logout',[LogoutController::class,'logoutUser'])->name('logout');

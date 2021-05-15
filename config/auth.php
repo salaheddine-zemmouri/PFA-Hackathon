@@ -52,6 +52,11 @@ return [
             'provider' => 'administrators',
         ],
 
+        'contestant' => [
+            'driver' => 'session',
+            'provider' => 'contestants',
+        ],
+
     ],
 
     /*
@@ -80,6 +85,11 @@ return [
         'administrators' => [
             'driver' => 'eloquent',
             'model' => App\Models\Administrator::class,
+        ],
+
+        'contestants' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Contestant::class,
         ],
 
         // 'users' => [
