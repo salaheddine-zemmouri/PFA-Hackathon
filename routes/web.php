@@ -16,9 +16,16 @@ use App\Http\Controllers\Auth\LoginController;
 |
 */
 
+Route::get('/home/{user}', function ($user) {
+    dd(Auth::guard($user)->user());
+})->name('home');
+
+
 Route::get('/', function () {
     return view('landing');
 });
 
 
 Route::get('/login',[LoginController::class,'showAdminLoginForm'])->name('login');
+
+Route::post('/login',[LoginController::class,'loginUser']);

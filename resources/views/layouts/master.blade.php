@@ -24,9 +24,13 @@
                   <a class="nav-link" href="#">About</a>
                 </li>
               </ul>
-              @guest
+              @guest('administrator')
                   <a  href={{route('login')}} class="btn btn-primary my-btn" type="submit" >Login</a>
               @endguest
+
+              @auth('administrator')
+                  <a  href="" class="btn btn-primary my-btn" type="submit" >Logout</a>
+              @endauth
 
             </div>
           </div>

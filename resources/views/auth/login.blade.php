@@ -25,7 +25,7 @@
                   @csrf
                   <div class="radio-buttons d-flex justify-content-center">
                     <label class="custom-radio">
-                      <input type="radio" name="radio" checked />
+                      <input type="radio" name="radio" value="contestant" />
                         <span class="radio-btn">
                           <div class="user-icon">
                             <img src={{asset('images/contestant.svg')}} class="w-100">
@@ -35,7 +35,7 @@
                     </label>
 
                     <label class="custom-radio">
-                      <input type="radio" name="radio" checked />
+                      <input type="radio" name="radio" value="evaluator" />
                         <span class="radio-btn">
 
                           <div class="user-icon">
@@ -45,7 +45,7 @@
                     </label>
 
                     <label class="custom-radio">
-                      <input type="radio" name="radio" checked />
+                      <input type="radio" name="radio" value="administrator" />
                         <span class="radio-btn">
 
                           <div class="user-icon">

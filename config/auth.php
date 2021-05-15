@@ -52,15 +52,6 @@ return [
             'provider' => 'administrators',
         ],
 
-        'evaluator' => [
-            'driver' => 'session',
-            'provider' => 'evaluators',
-        ],
-
-        'contestant' => [
-            'driver' => 'session',
-            'provider' => 'contestants',
-        ],
     ],
 
     /*
@@ -91,16 +82,6 @@ return [
             'model' => App\Models\Administrator::class,
         ],
 
-        'evaluators' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\Evaluator::class,
-        ],
-
-        'contestants' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\Contestant::class,
-        ],
-
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',
@@ -125,6 +106,12 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'administrators' => [
+            'provider' => 'administrators',
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,
