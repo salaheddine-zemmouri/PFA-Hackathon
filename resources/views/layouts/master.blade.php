@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Hackathon</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
-    <link href= {{asset('css/app.css')}} rel="stylesheet">
+    <link href= {{secure_asset('css/app.css')}} rel="stylesheet">
 </head>
 <body>
     <div class="container">
@@ -15,7 +15,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item me-5">
-                  <a class="nav-link active" aria-current="page" href="#">Home</a>
+                  <a class="nav-link active" aria-current="page" href={{route('home')}}>Home</a>
                 </li>
                 <li class="nav-item me-5">
                   <a class="nav-link" href="#">Contact</a>
@@ -25,12 +25,21 @@
                 </li>
               </ul>
               @guest('administrator')
-                  <a  href={{route('login')}} class="btn btn-primary my-btn" type="submit" >Login</a>
+              @guest('contestant')
+              <a  href={{route('login')}} class="btn btn-primary my-btn" type="submit" >Login</a>
+              <a  href={{route('register')}} class="btn btn-primary my-btn ms-4" type="submit" >Register</a>
+              @endguest
               @endguest
 
+
+
               @auth('administrator')
-                  <a  href="" class="btn btn-primary my-btn" type="submit" >Logout</a>
+                  <a  href={{route('logout')}} class="btn btn-primary my-btn" type="submit" >Logout</a>
               @endauth
+              @auth('contestant')
+                  <a  href={{route('logout')}} class="btn btn-primary my-btn" type="submit" >Logout</a>
+              @endauth
+
 
             </div>
           </div>

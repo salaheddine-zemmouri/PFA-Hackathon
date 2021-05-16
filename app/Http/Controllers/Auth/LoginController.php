@@ -13,9 +13,9 @@ class LoginController extends Controller
 
 
 
-  public function showAdminLoginForm()
+  public function index()
   {
-      return view('auth.login',['url'=>'administrator']);
+      return view('auth.login');
   }
 
   public function loginUser(Request $request)
@@ -33,7 +33,7 @@ class LoginController extends Controller
       if(!Auth::guard($request->radio)->attempt($credentials)){
           return back()->with('status','Invalid login credentials');
       };
-      return redirect()->route('home',['user'=>$request->radio]);
-
+      //return redirect()->route('dashboard',['user'=>$request->radio]);
+      return redirect()->route('home');
   }
 }

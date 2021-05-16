@@ -19,11 +19,11 @@
         <div class="form-container w-75">
           <div class="m-5 row justify-content-center ">
 
-              <h3 class="text-center color-primary mb-4">Sign In</h3>
+              <h3 class="text-center color-primary mb-4">Sign Up</h3>
               <h6 class="text-center color-secondary fw-light mb-4">Who are you ?</h6>
-              <form action="{{route('login')}}" method="POST" class="mb-4">
+              <form action="{{route('register')}}" method="POST" class="mb-4">
                   @csrf
-                  <div class="radio-buttons d-flex justify-content-center mb-4">
+                  <div class="radio-buttons d-flex justify-content-around mb-4">
                     <label class="custom-radio">
                       <input type="radio" name="radio" value="contestant" />
                         <span class="radio-btn">
@@ -34,16 +34,6 @@
                        <div class="text-center text-black">Contestant</div>
                     </label>
 
-                    <label class="custom-radio">
-                      <input type="radio" name="radio" value="evaluator" />
-                        <span class="radio-btn">
-
-                          <div class="user-icon">
-                            <img src={{secure_asset('images/evaluator.svg')}} class="w-100">
-                          </div>
-                        </span>
-                      <div class="text-center text-black">Evaluator</div>
-                    </label>
 
                     <label class="custom-radio">
                       <input type="radio" name="radio" value="administrator" />
@@ -55,6 +45,16 @@
                         </span>
                       <div class="text-center text-black">Administrator</div>
                     </label>
+                  </div>
+
+                  <div class="mb-4">
+                      <label for="name" >Full Name</label>
+                      <input type="text" name="name" id="name" class="w-100 d-block p-1 border border-primary @error('name') is-invalid border-danger @enderror">
+                      @error('name')
+                          <div class="invalid-feedback">
+                              {{$message}}
+                          </div>
+                      @enderror
                   </div>
 
                   <div class="mb-4">
@@ -76,7 +76,7 @@
                           </div>
                       @enderror
                   </div>
-                  <button type="submit" class="btn btn-primary ps-5 pe-5 btn-circle ">Login</button>
+                  <button type="submit" class="btn btn-primary ps-5 pe-5 btn-circle ">Create Account</button>
               </form>
 
               <div class="mb-4 d-flex align-items-center or-container m-1">
@@ -87,7 +87,7 @@
 
               <div class="mb-4 btn btn-outline-primary p-2">
                 <img src={{secure_asset('images/google-logo.svg')}} class="google-logo">
-                <span>Sign-in Using Google</span>
+                <span>Continue With Google</span>
               </div>
 
 
