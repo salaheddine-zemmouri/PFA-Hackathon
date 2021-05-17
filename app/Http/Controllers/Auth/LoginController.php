@@ -34,6 +34,6 @@ class LoginController extends Controller
           return back()->with('status','Invalid login credentials');
       };
       //return redirect()->route('dashboard',['user'=>$request->radio]);
-      return redirect()->route('home');
+      return redirect()->route('competitions.index');
   }
 }

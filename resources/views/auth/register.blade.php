@@ -6,13 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Hackathon</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
-    <link href= {{secure_asset('css/app.css')}} rel="stylesheet">
+    <link href= {{asset('css/app.css')}} rel="stylesheet">
 </head>
   <body>
     <div class="container-fluid row h-full">
 
       <div class="col-6 d-flex justify-content-center align-items-center">
-        <img src={{secure_asset('images/login_img.svg')}} class="img-fluid w-75">
+        <img src={{asset('images/login_img.svg')}} class="img-fluid w-75">
       </div>
 
       <div class="col-6 d-flex justify-content-center align-items-center">
@@ -28,7 +28,7 @@
                       <input type="radio" name="radio" value="contestant" />
                         <span class="radio-btn">
                           <div class="user-icon">
-                            <img src={{secure_asset('images/contestant.svg')}} class="w-100">
+                            <img src={{asset('images/contestant.svg')}} class="w-100">
                           </div>
                         </span>
                        <div class="text-center text-black">Contestant</div>
@@ -40,7 +40,7 @@
                         <span class="radio-btn">
 
                           <div class="user-icon">
-                            <img src={{secure_asset('images/admin.svg')}} class="w-100">
+                            <img src={{asset('images/admin.svg')}} class="w-100">
                           </div>
                         </span>
                       <div class="text-center text-black">Administrator</div>
@@ -86,7 +86,7 @@
               </div>
 
               <div class="mb-4 btn btn-outline-primary p-2">
-                <img src={{secure_asset('images/google-logo.svg')}} class="google-logo">
+                <img src={{asset('images/google-logo.svg')}} class="google-logo">
                 <span>Continue With Google</span>
               </div>
 

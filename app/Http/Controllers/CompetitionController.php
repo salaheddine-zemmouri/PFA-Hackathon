@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Competition;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class CompetitionController extends Controller
 {
@@ -14,7 +16,16 @@ class CompetitionController extends Controller
      */
     public function index()
     {
-        //
+        if(Auth::guard('administrator')){
+            $admin = Auth::guard('administrator')->user();
+            $competitions = Competition::where('administrator_id', $admin->id)->get();
+            return view('admin.dashboard',[
+                'competitions' => $competitions->sortByDesc('created_at'),
+                'admin' => $admin,
+            ]);
+        }elseif (Auth::guard('contestant')) {
+            return view('contestant.dashboard');
+        }
     }
 
     /**
@@ -35,7 +46,27 @@ class CompetitionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //validation
+        $validator = Validator::make($request->all(), [
+            'name' => 'bail|required||max:100',
+            'start_date' => 'required||date|after_or_equal:today|before:end_date',
+            'end_date' => 'required||date|after_or_equal:start_date',
+        ]);
+
+        if($validator->fails()){
+            return response()->json(['errors' => $validator->errors()]);
+        }else{
+            $competition = new Competition();
+
+            $competition->name = $request->input('name');
+            $competition->start_date = $request->input('start_date');
+            $competition->end_date = $request->input('end_date');
+            $competition->administrator_id = Auth::guard('administrator')->user()->id;
+
+            $competition->save();
+
+            return response()->json(['success' => '1']);
+        }
     }
 
     /**

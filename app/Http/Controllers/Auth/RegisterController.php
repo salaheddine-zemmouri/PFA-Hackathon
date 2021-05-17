@@ -68,7 +68,7 @@ class RegisterController extends Controller
         auth()->guard($request->radio)->attempt($credentials);
         //redirect
           //return redirect()->route('dashboard',['user'=>$request->radio]);
-          return redirect()->route('home');
+          return redirect()->route('competitions.index');
     }
 
     /**

@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\CompetitionController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,9 +17,10 @@ use App\Http\Controllers\Auth\RegisterController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/home',function(){
-  dd(Auth::guard('contestant')->user());;
-})->name('home');
+Route::get('/homepage',function(){
+  dd(Auth::guard('administrator')->user()->id);
+  // guard('contestant')->
+})->name('homepage');
 
 // Route::get('/dashboard/{user}', function ($user) {
 //
@@ -37,3 +39,5 @@ Route::get('/register',[RegisterController::class,'create'])->name('register');
 Route::post('/register',[RegisterController::class,'store']);
 
 Route::get('/logout',[LogoutController::class,'logoutUser'])->name('logout');
+
+Route::resource('/admin/competitions',Competitioncontroller::class);

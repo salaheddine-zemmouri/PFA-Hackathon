@@ -16,6 +16,10 @@ class CreateCompetitionsTable extends Migration
         Schema::create('competitions', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->string('name');
+            $table->date('start_date');
+            $table->date('end_date');
+            $table->foreignId('administrator_id')->constrained();
         });
     }
 

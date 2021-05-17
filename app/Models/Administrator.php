@@ -27,4 +27,9 @@ class Administrator extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    public function competitions()
+    {
+        return $this->hasMany(Competition::class);
+    }
 }

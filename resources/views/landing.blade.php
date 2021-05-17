@@ -28,7 +28,7 @@
 </div>
 
 <div class="second_hero">
-    <img src={{secure_asset('images/component.svg')}} alt="" class="path">
+    <img src={{asset('images/component.svg')}} alt="" class="path">
 </div>
 
 @endsection

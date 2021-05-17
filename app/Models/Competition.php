@@ -8,4 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Competition extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'name',
+        'start_date',
+        'end_date',
+        'administrator_id',
+    ];
+
+    public function administrator()
+    {
+        return $this->belongsTo(Administrator::class, 'administrator_id', 'id');
+    }
 }
