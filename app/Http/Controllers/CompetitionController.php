@@ -16,16 +16,21 @@ class CompetitionController extends Controller
      */
     public function index()
     {
-        if(Auth::guard('administrator')){
+        if(Auth::guard('administrator')->check()){
             $admin = Auth::guard('administrator')->user();
             $competitions = Competition::where('administrator_id', $admin->id)->get();
             return view('admin.dashboard',[
                 'competitions' => $competitions->sortByDesc('created_at'),
                 'admin' => $admin,
             ]);
-        }elseif (Auth::guard('contestant')) {
-            return view('contestant.dashboard');
+        }elseif (Auth::guard('contestant')->check()) {
+            $contestant = Auth::guard('contestant')->user();
+            return view('contestant.dashboard',[
+                'contestant' => $contestant,
+            ]);
         }
+
+
     }
 
     /**

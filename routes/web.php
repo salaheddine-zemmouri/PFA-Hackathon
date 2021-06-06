@@ -7,6 +7,10 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CompetitionController;
+use App\Models\Competition;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -40,4 +44,6 @@ Route::post('/register',[RegisterController::class,'store']);
 
 Route::get('/logout',[LogoutController::class,'logoutUser'])->name('logout');
 
-Route::resource('/admin/competitions',Competitioncontroller::class);
+Route::resource('/competitions',Competitioncontroller::class);
+
+
