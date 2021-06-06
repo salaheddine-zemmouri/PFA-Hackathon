@@ -13,6 +13,7 @@ class Competition extends Model
         'name',
         'start_date',
         'end_date',
+        'code',
         'administrator_id',
     ];
 

@@ -19,6 +19,7 @@ class CreateCompetitionsTable extends Migration
             $table->string('name');
             $table->date('start_date');
             $table->date('end_date');
+            $table->string('code',6)->unique();
             $table->foreignId('administrator_id')->constrained();
         });
     }

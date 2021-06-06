@@ -6,6 +6,7 @@ use App\Models\Competition;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class CompetitionController extends Controller
 {
@@ -66,6 +67,7 @@ class CompetitionController extends Controller
             $competition->name = $request->input('name');
             $competition->start_date = $request->input('start_date');
             $competition->end_date = $request->input('end_date');
+            $competition->code = Str::random(6);
             $competition->administrator_id = Auth::guard('administrator')->user()->id;
 
             $competition->save();
