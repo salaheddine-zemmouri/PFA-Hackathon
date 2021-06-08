@@ -45,5 +45,8 @@ Route::post('/register',[RegisterController::class,'store']);
 Route::get('/logout',[LogoutController::class,'logoutUser'])->name('logout');
 
 Route::resource('/competitions',Competitioncontroller::class);
+Route::get('/teams', function(){
+  return view('admin.teams');
+});
 
 

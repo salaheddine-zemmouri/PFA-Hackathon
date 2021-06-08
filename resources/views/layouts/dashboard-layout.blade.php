@@ -18,7 +18,7 @@
     <nav class="navbar navbar-expand-sm navbar-dark bg-dark p-0 fixed-top">
         <div class="container">
             <span class="navbar-brand">Hackathon</span>
-            <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+            <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -27,10 +27,9 @@
                         <a href="#" class="nav-link active">My Competitions</a>
                     </li>
                 </ul>
-
                 <ul class="navbar-nav ml-auto d-flex">
                     <li class="nav-item dropdown mr-3">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                             <i class="fas fa-user"></i> Welcome {{ $admin->name }}
                         </a>
                         <div class="dropdown-menu">
@@ -59,7 +58,7 @@
         </section>
         <div class="container" id="competitions">
             <div class="row d-flex justify-content-center">
-                @yield('custom-msg')
+                @yield('customised-msg')
             </div>
             <div class="row justify-content-center">
                 @yield('content')
@@ -82,7 +81,7 @@
     <!-- End copyrights footer -->
 
     <!-- MODALS -->
-    @yield('custom-modal')
+    @yield('customised-modal')
     <!-- MODALS END -->
 
     <!-- Jquery link -->
@@ -91,7 +90,7 @@
     <!-- JavaScript Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
     <!-- Custom JS link -->
-    @yield('custom-js')
+    @yield('customised-js')
 
 </body>
 

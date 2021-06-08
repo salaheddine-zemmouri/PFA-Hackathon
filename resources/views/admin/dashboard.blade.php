@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.dashboard-layout')
 
 @section('actions')
 <div class="col-md-4 offset-1 d-grid gap-2">
@@ -11,7 +11,7 @@
 </div>
 @endsection
 
-@section('custom-msg')
+@section('customised-msg')
 <div class="alert alert-success alert-dismissible fade show" role="alert" id="success-msg" style="display: none;">
     <strong>Competition created successfully</strong>
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -37,7 +37,7 @@
     
 @endsection
 
-@section('custom-modal')
+@section('customised-modal')
 <div class="modal fade" id="createCompModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -79,7 +79,7 @@
 </div>
 @endsection
 
-@section('custom-js')
+@section('customised-js')
 <script type="text/javascript">
     /*function archiveClass() {
         var tr = this.parentElement.parentElement;
