@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CompetitionController;
+use App\Http\Controllers\ObjectiveController;
 use App\Models\Competition;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
@@ -48,7 +49,5 @@ Route::resource('/competitions',Competitioncontroller::class);
 Route::get('/teams', function(){
   return view('admin.teams');
 });
-Route::get('/objectives', function(){
-  return view('admin.objectives');
-});
+Route::resource('/competitions.objectives',ObjectiveController::class);
 

@@ -55,8 +55,8 @@ class CompetitionController extends Controller
         //validation
         $validator = Validator::make($request->all(), [
             'name' => 'bail|required||max:100',
-            'start_date' => 'required||date|after_or_equal:today|before:end_date',
-            'end_date' => 'required||date|after_or_equal:start_date',
+            'start_date' => 'bail|required||date||after_or_equal:today',
+            'end_date' => 'bail|required||date||after_or_equal:start_date',
         ]);
 
         if($validator->fails()){

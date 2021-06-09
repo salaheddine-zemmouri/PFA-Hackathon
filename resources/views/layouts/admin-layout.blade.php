@@ -40,7 +40,7 @@
                 <ul class="navbar-nav ml-auto d-flex">
                     <li class="nav-item dropdown mr-3">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <i class="fas fa-user"></i> Welcome Smiya Lkniya
+                            <i class="fas fa-user"></i> Welcome {{$admin->name}}
                         </a>
                         <div class="dropdown-menu">
                             <a href="#" class="dropdown-item">

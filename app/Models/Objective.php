@@ -10,7 +10,7 @@ class Objective extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
+        'title',
         'administrator_id',
         'competition_id',
     ];

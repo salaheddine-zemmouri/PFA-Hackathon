@@ -17,7 +17,7 @@
 
 @section('content')
 <div class="col-md-9">
-    <input type="hidden" name="competition-id" id="competition-id" value="">
+    <input type="hidden" name="competition-id" id="competition-id" value="{{ $competition->id }}">
     <div class="alert alert-success alert-dismissible fade show" role="alert" id="success-msg" style="display: none;">
         <strong>Record added successfully</strong>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -36,11 +36,12 @@
                 </tr>
             </thead>
             <tbody>
+                @forelse ($objectives as $objective)
                 <tr>
                     <td>
-                        <input type="hidden" id="objective-id" name="objective-id" value="">
+                        <input type="hidden" id="objective-id" name="objective-id" value="{{ $objective->id }}">
                     </td>
-                    <td>Objective 1</td>
+                    <td>{{ $objective->title }}</td>
                     <td>
                         <a href="#" class="btn btn-light">
                             <i class="fas fa-edit"></i>
@@ -52,6 +53,13 @@
                         </a>
                     </td>
                 </tr>
+                @empty
+                <tr>
+                    <td colspan="4">
+                        No data found!
+                    </td>
+                </tr>
+                @endforelse
             </tbody>
         </table>
         <div class="pagination justify-content-center">
@@ -74,7 +82,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="objective">Objective</label>
-                        <input type="text" name="objective" class="form-control" id="objective" value="">
+                        <input type="text" name="objective" class="form-control" id="objective" value="{{ old('objective') }}">
                         <span class="invalid-feedback">
                             <strong id="obj-error"></strong>
                         </span>
@@ -92,6 +100,9 @@
 @section('customised-js')
 <script type="text/javascript">
     $(document).ready(function(){
+        // Get competition id
+        var competition_id = document.getElementById("competition-id").value;
+
         if(localStorage.getItem("success")){
             $('#success-msg').css('display', 'block')
             localStorage.clear();
@@ -103,13 +114,13 @@
             $('#objective').removeClass('is-invalid');
             $.ajax({
                 type:'POST',
-                url:'',
+                url:'/competitions/'+competition_id+'/objectives',
                 data:$('#add-objective-form').serialize(),
                 dataType: 'json',
                 success:function(data){
                     if(data.errors) {
-                        if(data.errors.name){
-                            $('#obj-error').html(data.errors.name[0]);
+                        if(data.errors.objective){
+                            $('#obj-error').html(data.errors.objective[0]);
                             $('#objective').addClass('is-invalid');
                         }
                     }

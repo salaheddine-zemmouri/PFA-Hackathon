@@ -21,6 +21,7 @@ class CreateCompetitionsTable extends Migration
             $table->date('end_date');
             $table->string('code',6)->unique();
             $table->foreignId('administrator_id')->constrained();
+            $table->softDeletes();
         });
     }
 
