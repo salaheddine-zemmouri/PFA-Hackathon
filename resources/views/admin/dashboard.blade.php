@@ -15,7 +15,7 @@
 <div class="alert alert-success alert-dismissible fade show" role="alert" id="success-msg" style="display: none;">
     <strong>Competition created successfully</strong>
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-  </div>
+</div>
 @endsection
 
 @section('content')

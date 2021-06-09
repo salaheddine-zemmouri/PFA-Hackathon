@@ -48,5 +48,7 @@ Route::resource('/competitions',Competitioncontroller::class);
 Route::get('/teams', function(){
   return view('admin.teams');
 });
-
+Route::get('/objectives', function(){
+  return view('admin.objectives');
+});
 
