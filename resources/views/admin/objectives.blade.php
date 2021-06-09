@@ -17,11 +17,24 @@
 
 @section('content')
 <div class="col-md-9">
+    {{-- Get competition id --}}
     <input type="hidden" name="competition-id" id="competition-id" value="{{ $competition->id }}">
+
+    {{-- Success msg on add --}}
     <div class="alert alert-success alert-dismissible fade show" role="alert" id="success-msg" style="display: none;">
         <strong>Record added successfully</strong>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
+
+    {{-- Success msg on delete --}}
+    @if (session()->has('objective_deleted'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>{{ session()->get('objective_deleted') }}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
+
+    {{-- Objectives Datatable --}}
     <div class="card shadow-sm">
         <div class="card-header">
             <h4>Objectives</h4>
@@ -43,12 +56,12 @@
                     </td>
                     <td>{{ $objective->title }}</td>
                     <td>
-                        <a href="#" class="btn btn-light">
+                        <a href="#" class="btn btn-light edit-obj">
                             <i class="fas fa-edit"></i>
                         </a>
                     </td>
                     <td>
-                        <a href="#" class="btn btn-light">
+                        <a href="#" class="btn btn-light delete-obj" data-bs-toggle="modal" data-bs-target="#deleteObjectiveModal">
                             <i class="fas fa-trash"></i>
                         </a>
                     </td>
@@ -63,7 +76,7 @@
             </tbody>
         </table>
         <div class="pagination justify-content-center">
-            
+            {{ $objectives->links() }}
         </div>
     </div>
 </div>
@@ -95,14 +108,54 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="deleteObjectiveModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete Objective</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Do you really want to delete this record? This process cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-dark" data-bs-dismiss="modal">Back</button>
+                <form id="delete-objective-form" method="POST" action="">
+                    @csrf
+                    @method('DELETE')
+                    <button name="delete" class="btn btn-danger" id="delete" type="submit">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('customised-js')
 <script type="text/javascript">
+
+    function deleteObjective() {
+        var competition_id = document.getElementById("competition-id").value;
+        var tr = this.parentElement.parentElement;
+        var objective_id = tr.children[0].children[0].value;
+
+        //Setting up the action for the delete form 
+        document.getElementById("delete-objective-form").action = "/competitions/"+competition_id+"/objectives/"+objective_id;
+    }
+    function clickOnDelete(){
+        var deleteButtons = document.getElementsByClassName("delete-obj");
+        for (let i = 0; i < deleteButtons.length; i++) {
+            deleteButtons[i].addEventListener("click",deleteObjective);
+        }
+    }
+
     $(document).ready(function(){
         // Get competition id
         var competition_id = document.getElementById("competition-id").value;
-
+        //
+        clickOnDelete();
+        //
         if(localStorage.getItem("success")){
             $('#success-msg').css('display', 'block')
             localStorage.clear();

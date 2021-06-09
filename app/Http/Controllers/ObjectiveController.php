@@ -114,8 +114,11 @@ class ObjectiveController extends Controller
      * @param  \App\Models\Objective  $objective
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Objective $objective)
+    public function destroy(Request $request, $competition_id, $objective_id)
     {
-        //
+        $objective = Objective::find($objective_id);
+        $objective->delete();
+        $request->session()->flash('objective_deleted', 'Record successefully deleted');
+        return redirect()->route('competitions.objectives.index',$competition_id);
     }
 }
