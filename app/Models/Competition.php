@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Competition extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     protected $fillable = [
         'name',
@@ -20,5 +22,19 @@ class Competition extends Model
     public function administrator()
     {
         return $this->belongsTo(Administrator::class, 'administrator_id', 'id');
+    }
+
+    public function objectives(){
+        return $this->hasMany(Objective::class);
+    }
+
+    public static function boot(){
+        parent ::boot() ;
+
+        //to delete objectives related to a competition
+        static ::deleting(function(Competition $competition){
+            $competition->objectives()->delete();
+        });
+
     }
 }
