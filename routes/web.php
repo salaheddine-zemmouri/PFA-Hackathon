@@ -10,7 +10,7 @@ use App\Http\Controllers\CompetitionController;
 use App\Models\Competition;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
-
+use Illuminate\Support\Str;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,14 +21,12 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/homepage',function(){
-  dd(Auth::guard('administrator')->user()->id);
-  // guard('contestant')->
-})->name('homepage');
+
 
 // Route::get('/dashboard/{user}', function ($user) {
 //
 // })->name('home');
+
 
 
 Route::get('/', function () {
