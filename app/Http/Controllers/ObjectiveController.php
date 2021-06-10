@@ -103,9 +103,25 @@ class ObjectiveController extends Controller
      * @param  \App\Models\Objective  $objective
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Objective $objective)
+    public function update(Request $request, $competition_id, $objective_id)
     {
-        //
+        //validation
+        $validator = Validator::make($request->all(), [
+            'new_objective' => 'bail|required',
+        ]);
+
+        if($validator->fails()){
+            return response()->json(['errors' => $validator->errors()]);
+        }else{
+            $competition = Competition::find($competition_id);
+            $objective = Objective::find($objective_id);
+
+            $objective->title = $request->input('new_objective');
+            $objective->administrator_id = Auth::guard('administrator')->user()->id;
+            $objective->competition()->associate($competition)->save();
+
+            return response()->json(['success' => '1']);
+        }
     }
 
     /**

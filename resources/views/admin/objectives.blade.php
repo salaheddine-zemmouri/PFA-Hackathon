@@ -34,6 +34,12 @@
     </div>
     @endif
 
+    {{-- Success msg on edit --}}
+    <div class="alert alert-success alert-dismissible fade show" role="alert" id="success-msg-edit" style="display: none;">
+        <strong>Record edited successfully</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
     {{-- Objectives Datatable --}}
     <div class="card shadow-sm">
         <div class="card-header">
@@ -56,7 +62,7 @@
                     </td>
                     <td>{{ $objective->title }}</td>
                     <td>
-                        <a href="#" class="btn btn-light edit-obj">
+                        <a href="#" class="btn btn-light edit-obj" data-bs-toggle="modal" data-bs-target="#editObjectiveModal">
                             <i class="fas fa-edit"></i>
                         </a>
                     </td>
@@ -130,6 +136,34 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="editObjectiveModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Objective</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="edit-objective-form" method="POST" action="">
+                @csrf
+                @method('PUT')
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input type="hidden" name="hidden-obj-id" id="hidden-obj-id" value="">
+                        <label for="obj-new">Objective</label>
+                        <input type="text" name="new_objective" class="form-control" id="obj-new" value="{{ old('obj-new') }}">
+                        <span class="invalid-feedback">
+                            <strong id="obj-new-error"></strong>
+                        </span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button name="edit" class="btn btn-success" id="edit" type="submit">Edit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('customised-js')
@@ -143,6 +177,19 @@
         //Setting up the action for the delete form 
         document.getElementById("delete-objective-form").action = "/competitions/"+competition_id+"/objectives/"+objective_id;
     }
+
+    function editObjective(){
+        var competition_id = document.getElementById("competition-id").value;
+        var tr = this.parentElement.parentElement;
+        var objective_id = tr.children[0].children[0].value;
+        var objective_title = tr.children[1].innerHTML;
+
+        // Set modal input value into the same value from the table
+        document.getElementById("obj-new").value = objective_title;
+        // Set hiddent input into <tr> id
+        document.getElementById("hidden-obj-id").value = objective_id;
+    }
+
     function clickOnDelete(){
         var deleteButtons = document.getElementsByClassName("delete-obj");
         for (let i = 0; i < deleteButtons.length; i++) {
@@ -150,17 +197,30 @@
         }
     }
 
+    function clickOnEdit(){
+        var editButtons = document.getElementsByClassName("edit-obj");
+        for (let i = 0; i < editButtons.length; i++) {
+            editButtons[i].addEventListener("click",editObjective);
+        }
+    }
+
     $(document).ready(function(){
         // Get competition id
         var competition_id = document.getElementById("competition-id").value;
-        //
+        // Call to clickOnDelete function
         clickOnDelete();
-        //
+        // Call to clickOnEdit function
+        clickOnEdit();
+        // Customised success msg
         if(localStorage.getItem("success")){
             $('#success-msg').css('display', 'block')
             localStorage.clear();
+        }else if(localStorage.getItem("success-edit")){
+            $('#success-msg-edit').css('display', 'block')
+            localStorage.clear();
         }
 
+        //------------------- Add new objective --------------------------------------------------------
         $('#add-objective-form').on('submit', function(e){
             e.preventDefault();
             $('#obj-error').html("");
@@ -185,11 +245,36 @@
                 },
             })
         })
-        //alert(1);
-        /*var archiveButtons = document.getElementsByClassName('archive-class')
-        for (let i = 0; i < archiveButtons.length; i++) {
-            archiveButtons[i].addEventListener('click',archiveClass); 
-        }*/
+        //-----------------------------------------------------------------------------------------------
+
+        //------------------------------------ Update objective -----------------------------------------
+        $('#edit-objective-form').on('submit', function(e){
+            e.preventDefault();
+            $('#obj-new-error').html("");
+            $('#obj-new').removeClass('is-invalid');
+            $.ajax({
+                type:'POST',
+                url:'/competitions/'+competition_id+'/objectives/'+$('#hidden-obj-id').val(),
+                data:$('#edit-objective-form').serialize(),
+                dataType: 'json',
+                success:function(data){
+                    if(data.errors) {
+                        //console.log(data.errors)
+                        if(data.errors.new_objective){
+                            $('#obj-new-error').html(data.errors.new_objective[0]);
+                            $('#obj-new').addClass('is-invalid');
+                        }
+                    }
+                    if(data.success) {
+                        $('#editObjectiveModal').modal('hide');
+                        localStorage.setItem("success-edit",data.OperationStatus)
+                        window.location.reload();
+                    }
+                },
+            })
+
+        })
+        //-----------------------------------------------------------------------------------------------
     })
 </script>
 @endsection
