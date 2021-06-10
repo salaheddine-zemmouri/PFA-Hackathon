@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CompetitionController;
 use App\Http\Controllers\ObjectiveController;
 use App\Models\Competition;
+use Illuminate\Support\Facades\Hash;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 use Illuminate\Support\Str;
@@ -45,8 +46,8 @@ Route::get('/logout',[LogoutController::class,'logoutUser'])->name('logout');
 
 Route::resource('/competitions',Competitioncontroller::class);
 
+Route::resource('/competitions.objectives',ObjectiveController::class)->only(['index','store','update','destroy']);
+
 Route::get('/teams', function(){
   return view('admin.teams');
 });
-Route::resource('/competitions.objectives',ObjectiveController::class)->only(['index','store','update','destroy']);
-

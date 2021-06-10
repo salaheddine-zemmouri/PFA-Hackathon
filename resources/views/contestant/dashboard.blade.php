@@ -1,12 +1,17 @@
 @extends('layouts.contestant')
 <!--ACTION SECTION -->
 @section('actions')
-<div class="col-md-4 offset-1">
+<div class="col-md-2 offset-1">
     <a href="#" class="btn btn-warning btn-block shadow" data-toggle="modal" data-target="#joinClassModal">
         <i class="fas fa-plus"></i> Join Hackathon
     </a>
 </div>
-<div class="col-md-4 offset-2">
+<div class="col-md-4">
+    <a href="#" class="btn btn-success btn-block shadow" data-toggle="modal" data-target="#createTeamModal">
+        <i class="fas fa-plus"></i> Create Team
+    </a>
+</div>
+<div class="col-md-4 ">
     <form method="GET" action="">
         <div class="input-group">
             <input type="text" name="search" id="search" class="form-control shadow-sm" placeholder="Search">
@@ -20,7 +25,7 @@
 
 @section('custom-modal')
     <!-- JOIN CLASS MODAL -->
-    <div class="modal fade" id="joinClassModal">
+    <div class="modal " id="joinClassModal">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <div class="modal-header bg-warning text-white">
@@ -71,4 +76,81 @@
         </div>
     </div>
     <!-- EXIT CLASS MODAL END -->
+
+    <!-- CREATE TEAM MODAL -->
+    <div class="modal " id="createTeamModal">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title">Create Team</h5>
+                    <button class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <form method="POST" action="">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="team_name" class="mb-2">Team name</label>
+                            <input type="text" class="form-control" id="team_name" name="name">
+                            
+                            <label for="num_members" class="mb-2">Number of members</label>
+                            <input type="number" class="form-control" id="members" min="0" value="0" name="num_members">
+
+                            {{-- 
+                            <div class="team_member mb_1">
+                                <label for="team_member_1" class="mb-2">Team member 1</label>
+                                <input type="text" class="form-control" id="team_member_1" name="member1">
+                            </div>
+                            --}}
+                            
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-success" id="join" type="submit">Create</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- ./JOIN CLASS MODAL -->
+@endsection
+
+@section('custom-js')
+<script type="text/javascript">
+        function createNewInput(n){
+            const div = document.createElement('div'); //team_member
+            div.setAttribute('class','team_member mb-2');
+            //child.classList.add(' ');
+            const label = document.createElement('label');
+            label.setAttribute('for',`team_member_${n}`);
+            label.setAttribute('class','mb-2');
+            label.textContent=`Team Member ${n}`;
+
+            const input = document.createElement('input');
+            input.setAttribute('type','email');
+            input.setAttribute('class','form-control');
+            input.setAttribute('id',`team_member_${n}`);
+            input.setAttribute('name',`member${n}`);
+            input.setAttribute('placeholder',`Enter email adress`);
+
+            div.appendChild(label);
+            div.appendChild(input);
+            form.appendChild(div);
+        }
+        function deleteLastInput(){
+            const form = document.querySelector('#createTeamModal .form-group');
+            form.removeChild(form.lastChild);
+        }
+        const form = document.querySelector('#createTeamModal .form-group');
+        const numberOfMembers = document.querySelector('#members');
+        let old = numberOfMembers.value;
+        numberOfMembers.addEventListener('change', ()=>{
+            let n = numberOfMembers.value;
+            if(n>old) createNewInput(n);
+            else deleteLastInput();
+            old = n;
+        });
+
+</script>
 @endsection
