@@ -21,7 +21,7 @@
             <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                 <ul class="navbar-nav">                   
                     <li class="nav-item px-2" id="myCompetitions">
                         <a href="#" class="nav-link active">My Competitions</a>
