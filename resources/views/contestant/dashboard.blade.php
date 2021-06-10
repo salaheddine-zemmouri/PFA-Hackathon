@@ -3,7 +3,7 @@
 @section('actions')
 <div class="col-md-4 offset-1">
     <a href="#" class="btn btn-warning btn-block shadow" data-toggle="modal" data-target="#joinClassModal">
-        <i class="fas fa-plus"></i> Join Class
+        <i class="fas fa-plus"></i> Join Hackathon
     </a>
 </div>
 <div class="col-md-4 offset-2">
