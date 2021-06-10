@@ -49,5 +49,5 @@ Route::resource('/competitions',Competitioncontroller::class);
 Route::get('/teams', function(){
   return view('admin.teams');
 });
-Route::resource('/competitions.objectives',ObjectiveController::class);
+Route::resource('/competitions.objectives',ObjectiveController::class)->only(['index','store','update','destroy']);
 
