@@ -2,7 +2,7 @@
 <!--ACTION SECTION -->
 @section('actions')
 <div class="col-md-2 offset-1">
-    <a href="#" class="btn btn-warning btn-block shadow" data-toggle="modal" data-target="#joinClassModal">
+    <a href="#" class="btn btn-warning btn-block shadow" data-toggle="modal" data-target="#joinHackathonModal">
         <i class="fas fa-plus"></i> Join Hackathon
     </a>
 </div>
@@ -24,8 +24,8 @@
 @endsection
 
 @section('custom-modal')
-    <!-- JOIN CLASS MODAL -->
-    <div class="modal " id="joinClassModal">
+    <!-- JOIN HACKATHON MODAL -->
+    <div class="modal " id="joinHackathonModal">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <div class="modal-header bg-warning text-white">
@@ -38,7 +38,7 @@
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="class_code" class="mb-2">Enter class code to join</label>
+                            <label for="class_code" class="mb-2">Enter hackathon code to join</label>
                             <input type="text" class="form-control" id="class_code" name="code">
                         </div>
                     </div>
@@ -51,7 +51,7 @@
     </div>
     <!-- ./JOIN CLASS MODAL -->
 
-    <!-- EXIT CLASS MODAL -->
+    <!-- EXIT HACKATHON MODAL -->
     <div class="modal fade" id="exitClassModal">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -75,7 +75,7 @@
             </div>
         </div>
     </div>
-    <!-- EXIT CLASS MODAL END -->
+    <!-- EXIT HACKATHON MODAL END -->
 
     <!-- CREATE TEAM MODAL -->
     <div class="modal " id="createTeamModal">
@@ -87,7 +87,7 @@
                         <span>&times;</span>
                     </button>
                 </div>
-                <form method="POST" action="">
+                <form method="POST" action="{{route('team.store')}}">
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">
@@ -95,7 +95,13 @@
                             <input type="text" class="form-control" id="team_name" name="name">
                             
                             <label for="num_members" class="mb-2">Number of members</label>
-                            <input type="number" class="form-control" id="members" min="0" value="0" name="num_members">
+                            <input type="number" class="form-control mb-2" id="members" min="1" value="1" name="num_members">
+
+                            <div class="team_member mb-2">
+                                <label for="team_member_1" class="mb-2">Team Leader</label>
+                                <input type="email" class="form-control" id="team_member_1" name="member1" placeholder={{Auth::guard(get_guard())->user()->email}} value={{Auth::guard(get_guard())->user()->email}} readonly>
+                            </div>
+
 
                             {{-- 
                             <div class="team_member mb_1">
@@ -113,7 +119,7 @@
             </div>
         </div>
     </div>
-    <!-- ./JOIN CLASS MODAL -->
+    <!-- CREATE HACKATHON MODAL END -->
 @endsection
 
 @section('custom-js')

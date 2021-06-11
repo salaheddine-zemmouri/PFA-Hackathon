@@ -8,11 +8,14 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CompetitionController;
 use App\Http\Controllers\ObjectiveController;
+use App\Http\Controllers\TeamController;
 use App\Models\Competition;
 use Illuminate\Support\Facades\Hash;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 use Illuminate\Support\Str;
+use PharIo\Manifest\Email;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,11 +27,9 @@ use Illuminate\Support\Str;
 |
 */
 
-
-// Route::get('/dashboard/{user}', function ($user) {
-//
-// })->name('home');
-
+Route::get('/test', function () {
+      dd(Hash::make('password'));
+});
 
 
 Route::get('/', function () {
@@ -51,3 +52,7 @@ Route::resource('/competitions.objectives',ObjectiveController::class)->only(['i
 Route::get('/teams', function(){
   return view('admin.teams');
 });
+
+
+
+Route::resource('/team',TeamController::class);
