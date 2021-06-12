@@ -49,10 +49,11 @@ Route::resource('/competitions',Competitioncontroller::class);
 
 Route::resource('/competitions.objectives',ObjectiveController::class)->only(['index','store','update','destroy']);
 
+Route::post('/join',[Competitioncontroller::class,'join'])->name('joinCompetition');
+
 Route::get('/teams', function(){
   return view('admin.teams');
 });
-
 
 
 Route::resource('/team',TeamController::class);

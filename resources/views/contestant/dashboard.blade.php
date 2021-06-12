@@ -34,10 +34,13 @@
                         <span>&times;</span>
                     </button>
                 </div>
-                <form method="POST" action="">
+                <form method="POST" action={{ route('joinCompetition') }}>
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">
+                            <label for="team_name" class="mb-2">Enter team name</label>
+                            <input type="text" class="form-control mb-2" id="team_name" name="name">
+
                             <label for="class_code" class="mb-2">Enter hackathon code to join</label>
                             <input type="text" class="form-control" id="class_code" name="code">
                         </div>
@@ -121,6 +124,21 @@
     </div>
     <!-- CREATE HACKATHON MODAL END -->
 @endsection
+
+@section('content')
+    @foreach ($competitions as $competition)
+    <div class="col-lg-4 col-sm-6 mb-4">
+        <div class="card h-80 shadow-sm">
+            <div class="card-body">
+                <h4 class="card-title">{{$competition->name}}</h4>
+                <p class="card-text">From : {{$competition->start_date}}</p>
+                <p class="card-text">To : {{$competition->end_date}}</p>
+                <a href="#" class="btn btn-primary">Go</a>
+            </div>
+        </div>
+    </div>
+    @endforeach
+@endsection 
 
 @section('custom-js')
 <script type="text/javascript">

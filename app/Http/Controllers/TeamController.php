@@ -39,6 +39,10 @@ class TeamController extends Controller
      */
     public function store(Request $request)
     {
+        //validation
+        $validated = $request->validate([
+            'name' => 'bail|required|max:50',
+        ]);
         
         Team::create([
              'name' => $request->name,
@@ -48,8 +52,8 @@ class TeamController extends Controller
         foreach($request->all() as $key){
             $i++;
             if($i>3){
-                $user = DB::table('contestants')->where('email','=',$key)->get()[0];
-                $team = DB::table('teams')->where('name','=',$request->name)->get()[0];
+                $user = DB::table('contestants')->where('email','=',$key)->first();
+                $team = DB::table('teams')->where('name','=',$request->name)->first();
                 TeamSubscription::create([
                     'contestant_id' => $user->id,
                     'team_id' => $team->id,
@@ -58,8 +62,7 @@ class TeamController extends Controller
             }
         }
         
-        
-
+        return back();
     }
 
     /**
