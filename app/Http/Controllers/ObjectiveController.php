@@ -38,6 +38,11 @@ class ObjectiveController extends Controller
                 'competition' => $competition,
                 'evaluators' => $evaluators->unique()->sortBy('name'),
             ]);
+        }elseif(Auth::guard('evaluator')->check()){
+            $evaluator = Auth::guard('evaluator')->user();
+            $objectives = CompetitionEvaluatorObjective::where('competition_id',$competition_id)->where('evaluator_id',$evaluator->id)->all();
+            dd($objectives);
+
         }
     }
 

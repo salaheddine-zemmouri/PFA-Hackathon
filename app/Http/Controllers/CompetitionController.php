@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Arr;
+use App\Models\Team;
+use App\Models\Contestant;
 
 use App\Models\Competition;
-use App\Models\Contestant;
-use App\Models\Team;
 use App\Models\Participant;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
+use App\Models\CompetitionEvaluatorObjective;
 
 class CompetitionController extends Controller
 {
@@ -46,6 +47,10 @@ class CompetitionController extends Controller
                 'contestant' => $contestant,
                 'competitions' => $competitions,
             ]);
+        }elseif(Auth::guard('evaluator')->check()){
+            $evaluator = Auth::guard('evaluator')->user();
+            $competitions = CompetitionEvaluatorObjective::where('evaluator_id',$evaluator->id)->all();
+            dd($competitions);
         }
 
 
