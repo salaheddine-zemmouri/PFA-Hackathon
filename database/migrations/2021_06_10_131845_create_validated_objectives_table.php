@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateObjectifsTable extends Migration
+class CreateValidatedObjectivesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateObjectifsTable extends Migration
      */
     public function up()
     {
-        Schema::create('objectifs', function (Blueprint $table) {
-            $table->id();
+        Schema::create('validated_objectives', function (Blueprint $table) {
+            $table->primary(['objective_id','team_id']);
+            $table->foreignId('objective_id')->constrained();
+            $table->foreignId('team_id')->constrained();
+            $table->boolean('note');
             $table->timestamps();
-            $table->string('nom');
-            $table->foreignId('competition_id')->constrained();
-            $table->foreignId('evaluator_id')->constrained();
         });
     }
 
@@ -29,6 +29,6 @@ class CreateObjectifsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('objectifs');
+        Schema::dropIfExists('validated_objectives');
     }
 }

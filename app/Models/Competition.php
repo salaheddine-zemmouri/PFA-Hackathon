@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\TeamController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -33,6 +34,12 @@ class Competition extends Model
     }
 
     /*public static function boot(){
+    public function participants()
+    {
+        return $this->hasMany(Participant::class);
+    }
+
+    public static function boot(){
         parent ::boot() ;
 
         //to delete objectives related to a competition
@@ -41,4 +48,6 @@ class Competition extends Model
         });
 
     }*/
+    
+
 }

@@ -2,7 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Arr;
+
 use App\Models\Competition;
+use App\Models\Contestant;
+use App\Models\Team;
+use App\Models\Participant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -25,9 +31,20 @@ class CompetitionController extends Controller
                 'admin' => $admin,
             ]);
         }elseif (Auth::guard('contestant')->check()) {
+            $participations = [];
+            $competitions = [];
             $contestant = Auth::guard('contestant')->user();
+            $teams = Contestant::find($contestant->id)->teams;
+            foreach($teams as $team){
+                $participations[$team->team_id] = Participant::where('team_id',$team->team_id)->first();
+            }
+            $i = 0;
+            foreach($participations as $participation){
+                $competitions[$i++] = Competition::where('id',$participation->competition_id)->first();
+            }
             return view('contestant.dashboard',[
                 'contestant' => $contestant,
+                'competitions' => $competitions,
             ]);
         }
 
@@ -119,5 +136,24 @@ class CompetitionController extends Controller
     public function destroy(Competition $competition)
     {
         //
+    }
+
+
+    public function join(Request $request){
+        //validation
+        $validated = $request->validate([
+            'name' => 'bail|required|max:50',
+            'code' => 'bail|required|max:6',
+        ]);
+
+        $team = Team::where('name',$request->name)->first();
+        $competition = Competition::where('code', $request->code)->first();
+
+        Participant::create([
+            'competition_id' => $competition->id,
+            'team_id' => $team->id
+        ]);
+
+        return back();
     }
 }
