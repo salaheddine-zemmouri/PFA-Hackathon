@@ -25,6 +25,14 @@
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
 @endif
+
+{{-- Success msg after deletion --}}
+@if (session()->has('competition_deleted'))
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>{{ session()->get('competition_deleted') }}</strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+@endif
 @endsection
 
 @section('content')
@@ -38,13 +46,16 @@
             <table>
                 <tr>
                     <td>
+                        <input type="hidden" name="competition-id" id="competition-id" value="{{$competition->id}}">
+                    </td>
+                    <td>
                         <a href="#" class="btn btn-primary">Visit</a>
                     </td>
                     <td>
                         <a href="{{route('competitions.edit',$competition->id)}}" class="btn btn-warning">Edit</a>
                     </td>
                     <td>
-                        <a href="#" class="btn btn-danger">Delete</a>
+                        <a href="#" class="btn btn-danger delete-comp" data-bs-toggle="modal" data-bs-target="#deleteCompetitionModal">Delete</a>
                     </td>
                 </tr>
             </table>
@@ -98,16 +109,51 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="deleteCompetitionModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete Competition</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Do you really want to delete this competition? This process cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-dark" data-bs-dismiss="modal">Back</button>
+                <form id="delete-competition-form" method="POST" action="">
+                    @csrf
+                    @method('DELETE')
+                    <button name="delete" class="btn btn-danger" id="delete" type="submit">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('customised-js')
 <script type="text/javascript">
-    /*function archiveClass() {
+    function deleteCompetition() {
         var tr = this.parentElement.parentElement;
-        var id = tr.children[0].children[0].value;
-        //document.getElementById("archive_class_form").action = "/myclasses/"+id;
-    }*/
+        var competition_id = tr.children[0].children[0].value;
+
+        //Setting up the action for the delete form 
+        document.getElementById("delete-competition-form").action = "/competitions/"+competition_id;
+    }
+
+    function clickOnDelete(){
+        var deleteButtons = document.getElementsByClassName("delete-comp");
+        for (let i = 0; i < deleteButtons.length; i++) {
+            deleteButtons[i].addEventListener("click",deleteCompetition);
+        }
+    }
+
     $(document).ready(function(){
+
+        clickOnDelete();
+
         if(localStorage.getItem("success")){
             $('#success-msg').css('display', 'block')
             localStorage.clear();

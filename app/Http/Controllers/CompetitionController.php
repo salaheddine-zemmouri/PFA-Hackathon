@@ -153,9 +153,12 @@ class CompetitionController extends Controller
      * @param  \App\Models\Competition  $competition
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Competition $competition)
+    public function destroy(Request $request, $competition_id)
     {
-        //
+        $competition = Competition::find($competition_id);
+        $competition->delete();
+        $request->session()->flash('competition_deleted', 'Competition successefully deleted');
+        return redirect()->back();
     }
 
 
