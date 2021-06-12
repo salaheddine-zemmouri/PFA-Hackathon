@@ -12,10 +12,19 @@
 @endsection
 
 @section('customised-msg')
+{{-- Success msg after creation --}}
 <div class="alert alert-success alert-dismissible fade show" role="alert" id="success-msg" style="display: none;">
     <strong>Competition created successfully</strong>
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
+
+{{-- Success msg after edition --}}
+@if (session()->has('competition_edited'))
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>{{ session()->get('competition_edited') }}</strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+@endif
 @endsection
 
 @section('content')
@@ -26,7 +35,19 @@
             <h4 class="card-title">{{$competition->name}}</h4>
             <p class="card-text">From : {{$competition->start_date}}</p>
             <p class="card-text">To : {{$competition->end_date}}</p>
-            <a href="#" class="btn btn-primary">Go</a>
+            <table>
+                <tr>
+                    <td>
+                        <a href="#" class="btn btn-primary">Visit</a>
+                    </td>
+                    <td>
+                        <a href="{{route('competitions.edit',$competition->id)}}" class="btn btn-warning">Edit</a>
+                    </td>
+                    <td>
+                        <a href="#" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
 </div>

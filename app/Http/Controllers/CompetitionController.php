@@ -110,9 +110,16 @@ class CompetitionController extends Controller
      * @param  \App\Models\Competition  $competition
      * @return \Illuminate\Http\Response
      */
-    public function edit(Competition $competition)
+    public function edit($competition_id)
     {
-        //
+        $competition = Competition::find($competition_id);
+        if(Auth::guard('administrator')->check()){
+            $admin = Auth::guard('administrator')->user();
+            return view('admin.edit-competition',[
+                'competition' => $competition,
+                'admin' => $admin,
+            ]);
+        }
     }
 
     /**
@@ -122,9 +129,22 @@ class CompetitionController extends Controller
      * @param  \App\Models\Competition  $competition
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Competition $competition)
+    public function update(Request $request, $competition_id)
     {
-        //
+        $request->validate([
+            'name' => 'bail|required||max:100',
+            'start_date' => 'bail|required||date||after_or_equal:today',
+            'end_date' => 'bail|required||date||after_or_equal:start_date',
+        ]);
+
+        $competition = Competition::find($competition_id);
+        $competition->name = $request->input('name');
+        $competition->start_date = $request->input('start_date');
+        $competition->end_date = $request->input('end_date');
+        $competition->save();
+
+        $request->session()->flash('competition_edited', 'Competition successefully edited');
+        return redirect()->route('competitions.index');
     }
 
     /**
