@@ -36,7 +36,7 @@ class ObjectiveController extends Controller
                 'objectives' => $objectives,
                 'admin' => $admin,
                 'competition' => $competition,
-                'evaluators' => $evaluators,
+                'evaluators' => $evaluators->unique()->sortBy('name'),
             ]);
         }
     }
@@ -126,18 +126,39 @@ class ObjectiveController extends Controller
     {
         //validation
         $validator = Validator::make($request->all(), [
-            'new_objective' => 'bail|required',
+            'new_objective' => 'required',
+            'new_evaluator' => 'required',
         ]);
 
         if($validator->fails()){
             return response()->json(['errors' => $validator->errors()]);
         }else{
-            $competition = Competition::find($competition_id);
+            $new_evaluator_id = $request->input('new_evaluator');
             $objective = Objective::find($objective_id);
+            $subscription =  CompetitionEvaluatorObjective::where('competition_id',$competition_id)->where('objective_id',$objective_id)->first();
 
             $objective->title = $request->input('new_objective');
-            $objective->administrator_id = Auth::guard('administrator')->user()->id;
-            $objective->competition()->associate($competition)->save();
+            $objective->save();
+
+            if($subscription->evaluator_id != $new_evaluator_id){
+                // set the existant subscription's objective_id on null
+                $subscription->objective_id = null;
+                $subscription->save();
+                // check if the new evaluator has any subscriptions' objective_id on null 
+                $new_subscription = CompetitionEvaluatorObjective::where('competition_id',$competition_id)->where('evaluator_id',$new_evaluator_id)->first();
+                if($new_subscription->objective_id == null){
+                    // if objective_id == null, we update it to the current objective's id
+                    $new_subscription->objective_id = $objective_id;
+                    $new_subscription->save();
+                }else{
+                    // else, we create new subscription
+                    CompetitionEvaluatorObjective::create([
+                        'competition_id' => $competition_id,
+                        'evaluator_id' => $new_evaluator_id,
+                        'objective_id' => $objective->id,
+                    ]);
+                }
+            }
 
             return response()->json(['success' => '1']);
         }

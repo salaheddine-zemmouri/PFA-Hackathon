@@ -27,7 +27,7 @@ class EvaluatorController extends Controller
 
         if(Auth::guard('administrator')->check()){
             $admin = Auth::guard('administrator')->user();
-            $evaluators = $competition->evaluators()
+            $evaluators = $competition->evaluators()->distinct()
                     ->orderBy('created_at','desc')
                     ->paginate(8);
 
