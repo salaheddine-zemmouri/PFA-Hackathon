@@ -25,10 +25,14 @@ class Competition extends Model
     }
 
     public function objectives(){
-        return $this->hasMany(Objective::class);
+        return $this->belongsTo(Objective::class,'objective_id','id');
     }
 
-    public static function boot(){
+    public function evaluators(){
+        return $this->belongsToMany(Evaluator::class,'competition_evaluator_objectives');
+    }
+
+    /*public static function boot(){
         parent ::boot() ;
 
         //to delete objectives related to a competition
@@ -36,5 +40,5 @@ class Competition extends Model
             $competition->objectives()->delete();
         });
 
-    }
+    }*/
 }

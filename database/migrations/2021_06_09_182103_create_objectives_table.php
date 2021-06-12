@@ -18,7 +18,6 @@ class CreateObjectivesTable extends Migration
             $table->timestamps();
             $table->string('title');
             $table->foreignId('administrator_id')->constrained();
-            $table->foreignId('competition_id')->constrained()->onDelete('cascade');
             $table->softDeletes();
         });
     }

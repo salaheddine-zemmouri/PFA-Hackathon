@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Evaluator;
+use App\Models\Competition;
+use App\Models\Administrator;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Objective extends Model
 {
@@ -12,7 +15,6 @@ class Objective extends Model
     protected $fillable = [
         'title',
         'administrator_id',
-        'competition_id',
     ];
 
     public function administrator(){
@@ -21,5 +23,9 @@ class Objective extends Model
 
     public function competition(){
         return $this->belongsTo(Competition::class,'competition_id','id');
+    }
+
+    public function evaluator(){
+        return $this->belongsTo(Evaluator::class,'evaluator_id','id');
     }
 }
