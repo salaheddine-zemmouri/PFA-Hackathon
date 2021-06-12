@@ -41,7 +41,7 @@ class TeamController extends Controller
     {
         //validation
         $validated = $request->validate([
-            'name' => 'bail|required|max:50',
+            'name' => 'required|max:50|unique:teams',
         ]);
         
         Team::create([

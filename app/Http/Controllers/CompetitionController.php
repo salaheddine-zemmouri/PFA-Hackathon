@@ -37,15 +37,17 @@ class CompetitionController extends Controller
             $contestant = Auth::guard('contestant')->user();
             $teams = Contestant::find($contestant->id)->teams;
             foreach($teams as $team){
-                $participations[$team->team_id] = Participant::where('team_id',$team->team_id)->first();
+                $participations[$team->team_id] = Participant::where('team_id',$team->team_id)->get();
             }
             $i = 0;
             foreach($participations as $participation){
-                $competitions[$i++] = Competition::where('id',$participation->competition_id)->first();
+                foreach($participation as $teamParticipation)
+                    $competitions[$i++] = Competition::where('id',$teamParticipation->competition_id)->first();
             }
             return view('contestant.dashboard',[
                 'contestant' => $contestant,
                 'competitions' => $competitions,
+                
             ]);
         }elseif(Auth::guard('evaluator')->check()){
             $evaluator = Auth::guard('evaluator')->user();
@@ -165,23 +167,30 @@ class CompetitionController extends Controller
         $request->session()->flash('competition_deleted', 'Competition successefully deleted');
         return redirect()->back();
     }
-
+    
 
     public function join(Request $request){
         //validation
-        $validated = $request->validate([
-            'name' => 'bail|required|max:50',
-            'code' => 'bail|required|max:6',
+        $validated = Validator::make($request->all(),[
+            'name' => 'required|max:50',
+            'code' => 'required|max:6',
         ]);
-
-        $team = Team::where('name',$request->name)->first();
-        $competition = Competition::where('code', $request->code)->first();
-
-        Participant::create([
-            'competition_id' => $competition->id,
-            'team_id' => $team->id
-        ]);
-
-        return back();
+        if($validated->fails()){
+            return response()->json(['errors' => $validated->errors()]);
+        }else{
+            $team = Team::where('name',$request->name)->first();
+            $competition = Competition::where('code', $request->code)->first();
+            
+            $participant = Participant::where('competition_id',$competition->id)->where('team_id' , $team->id)->first();
+            
+            if($participant !== null){
+                return response()->json(['exist' => '1']);
+            }
+            Participant::create([
+                'competition_id' => $competition->id,
+                'team_id' => $team->id
+            ]);
+        }
+        return response()->json(['success' => '1']);
     }
 }

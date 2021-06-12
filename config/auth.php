@@ -59,7 +59,7 @@ return [
 
         'evaluator' => [
             'driver' => 'session',
-            'provider' => 'administrators',
+            'provider' => 'evaluators',
         ],
 
     ],
