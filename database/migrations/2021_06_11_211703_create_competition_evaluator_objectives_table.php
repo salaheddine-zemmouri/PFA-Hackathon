@@ -14,10 +14,10 @@ class CreateCompetitionEvaluatorObjectivesTable extends Migration
     public function up()
     {
         Schema::create('competition_evaluator_objectives', function (Blueprint $table) {
-            $table->primary(['competition_id','evaluator_id','objective_id']);
+            $table->id();
             $table->foreignId('competition_id')->constrained();
             $table->foreignId('evaluator_id')->constrained();
-            $table->foreignId('objective_id')->default(0)->constrained();
+            $table->foreignId('objective_id')->nullable()->constrained();
             $table->timestamps();
         });
     }

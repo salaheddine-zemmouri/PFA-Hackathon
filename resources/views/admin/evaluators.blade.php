@@ -27,12 +27,12 @@
     </div>
 
     {{-- Success msg on delete --}}
-    {{-- @if (session()->has('objective_deleted'))
+    @if (session()->has('evaluator_deleted'))
     <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>{{ session()->get('objective_deleted') }}</strong>
+        <strong>{{ session()->get('evaluator_deleted') }}</strong>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-    @endif --}}
+    @endif
 
     {{-- Evaluators Datatable --}}
     <div class="card shadow-sm">

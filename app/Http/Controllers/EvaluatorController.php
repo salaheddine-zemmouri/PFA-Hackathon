@@ -147,8 +147,14 @@ class EvaluatorController extends Controller
      * @param  \App\Models\Evaluator  $evaluator
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Evaluator $evaluator)
+    public function destroy(Request $request, $competition_id, $evaluator_id)
     {
-        //
+        $subscriptions = CompetitionEvaluatorObjective::where('competition_id',$competition_id )
+                                                        ->where('evaluator_id',$evaluator_id)->get();
+        foreach ($subscriptions as $subscription) {
+            $subscription->delete();
+        }
+        $request->session()->flash('evaluator_deleted', 'Record successefully deleted');
+        return redirect()->route('competitions.evaluators.index',$competition_id);
     }
 }

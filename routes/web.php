@@ -50,4 +50,4 @@ Route::get('/teams', function(){
   return view('admin.teams');
 });
 Route::resource('/competitions.objectives',ObjectiveController::class)->only(['index','store','update','destroy']);
-Route::resource('/competitions.evaluators',EvaluatorController::class)->only(['index','store']);
+Route::resource('/competitions.evaluators',EvaluatorController::class)->only(['index','store','destroy']);
