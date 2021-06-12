@@ -50,6 +50,7 @@
                 <tr>
                     <th></th>
                     <th>Objective</th>
+                    <th>Evaluator</th>
                     <th>Edit</th>
                     <th>Delete</th>
                 </tr>
@@ -59,8 +60,10 @@
                 <tr>
                     <td>
                         <input type="hidden" id="objective-id" name="objective-id" value="{{ $objective->id }}">
+                        <input type="hidden" id="evaluator-id" name="evaluator-id" value="{{ $objective->evaluators()->first()->id }}">
                     </td>
                     <td>{{ $objective->title }}</td>
+                    <td>{{ $objective->evaluators()->first()->name }}</td>
                     <td>
                         <a href="#" class="btn btn-light edit-obj" data-bs-toggle="modal" data-bs-target="#editObjectiveModal">
                             <i class="fas fa-edit"></i>
@@ -74,7 +77,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="4">
+                    <td colspan="5">
                         No data found!
                     </td>
                 </tr>
@@ -104,6 +107,22 @@
                         <input type="text" name="objective" class="form-control" id="objective" value="{{ old('objective') }}">
                         <span class="invalid-feedback">
                             <strong id="obj-error"></strong>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label for="evaluator">Evaluator</label>
+                        <select name="evaluator" class="form-select" id="evaluator">
+                            @if (old('evaluator') != '')
+                            <option selected>{{old('evaluator')}}</option>
+                            @else
+                            <option selected disabled value="">Choose evaluator..</option>
+                            @endif
+                            @foreach ($evaluators as $evaluator)
+                            <option value="{{$evaluator->id}}">{{$evaluator->name}}</option>
+                            @endforeach
+                        </select>
+                        <span class="invalid-feedback">
+                            <strong id="evaluator-error"></strong>
                         </span>
                     </div>
                 </div>
@@ -156,6 +175,22 @@
                             <strong id="obj-new-error"></strong>
                         </span>
                     </div>
+                    <div class="form-group">
+                        <label for="new_evaluator">Evaluator</label>
+                        <select name="new_evaluator" class="form-select" id="new_evaluator">
+                            <option disabled value="">Choose evaluator..</option>
+                            @foreach ($evaluators as $evaluator)
+                                @if ($evaluator->name == old('new_evaluator'))
+                                <option value="{{$evaluator->id}}" selected>{{$evaluator->name}}</option>
+                                @else
+                                <option value="{{$evaluator->id}}">{{$evaluator->name}}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                        <span class="invalid-feedback">
+                            <strong id="new-evaluator-error"></strong>
+                        </span>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button name="edit" class="btn btn-success" id="edit" type="submit">Edit</button>
@@ -183,10 +218,17 @@
         var tr = this.parentElement.parentElement;
         var objective_id = tr.children[0].children[0].value;
         var objective_title = tr.children[1].innerHTML;
+        var evaluator_id = tr.children[0].children[1].value;
+        var evaluators = document.getElementById('new_evaluator');
 
         // Set modal input value into the same value from the table
         document.getElementById("obj-new").value = objective_title;
-        // Set hiddent input into <tr> id
+        // Set modal selected input on the same evaluator name from the table
+        for (let i = 1; i < evaluators.options.length; i++) {
+            if(evaluators.options[i].value == evaluator_id)
+                evaluators.options[i].setAttribute('selected','selected'); 
+        }
+        // Set hidden input into <tr> id
         document.getElementById("hidden-obj-id").value = objective_id;
     }
 
@@ -225,6 +267,8 @@
             e.preventDefault();
             $('#obj-error').html("");
             $('#objective').removeClass('is-invalid');
+            $('#evaluator-error').html("");
+            $('#evaluator').removeClass('is-invalid');
             $.ajax({
                 type:'POST',
                 url:'/competitions/'+competition_id+'/objectives',
@@ -235,6 +279,10 @@
                         if(data.errors.objective){
                             $('#obj-error').html(data.errors.objective[0]);
                             $('#objective').addClass('is-invalid');
+                        }
+                        if(data.errors.evaluator){
+                            $('#evaluator-error').html(data.errors.evaluator[0]);
+                            $('#evaluator').addClass('is-invalid');
                         }
                     }
                     if(data.success) {
@@ -252,6 +300,8 @@
             e.preventDefault();
             $('#obj-new-error').html("");
             $('#obj-new').removeClass('is-invalid');
+            $('#new-evaluator-error').html("");
+            $('#new_evaluator').removeClass('is-invalid');
             $.ajax({
                 type:'POST',
                 url:'/competitions/'+competition_id+'/objectives/'+$('#hidden-obj-id').val(),
@@ -263,6 +313,10 @@
                         if(data.errors.new_objective){
                             $('#obj-new-error').html(data.errors.new_objective[0]);
                             $('#obj-new').addClass('is-invalid');
+                        }
+                        if(data.errors.new_evaluator){
+                            $('#new-evaluator-error').html(data.errors.new_evaluator[0]);
+                            $('#new_evaluator').addClass('is-invalid');
                         }
                     }
                     if(data.success) {

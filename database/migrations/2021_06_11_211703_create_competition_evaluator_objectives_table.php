@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateObjectivesTable extends Migration
+class CreateCompetitionEvaluatorObjectivesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateObjectivesTable extends Migration
      */
     public function up()
     {
-        Schema::create('objectives', function (Blueprint $table) {
+        Schema::create('competition_evaluator_objectives', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('competition_id')->constrained();
+            $table->foreignId('evaluator_id')->constrained();
+            $table->foreignId('objective_id')->nullable()->constrained();
             $table->timestamps();
-            $table->string('title');
-            $table->foreignId('administrator_id')->constrained();
-            $table->softDeletes();
         });
     }
 
@@ -29,6 +29,6 @@ class CreateObjectivesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('objectives');
+        Schema::dropIfExists('competition_evaluator_objectives');
     }
 }

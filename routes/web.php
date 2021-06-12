@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CompetitionController;
 use App\Http\Controllers\ObjectiveController;
+use App\Http\Controllers\EvaluatorController;
 use App\Http\Controllers\TeamController;
 use App\Models\Competition;
 use Illuminate\Support\Facades\Hash;
@@ -54,6 +55,8 @@ Route::post('/join',[Competitioncontroller::class,'join'])->name('joinCompetitio
 Route::get('/teams', function(){
   return view('admin.teams');
 });
+Route::resource('/competitions.objectives',ObjectiveController::class)->only(['index','store','update','destroy']);
+Route::resource('/competitions.evaluators',EvaluatorController::class)->only(['index','store','destroy']);
 
 
 Route::resource('/team',TeamController::class);
