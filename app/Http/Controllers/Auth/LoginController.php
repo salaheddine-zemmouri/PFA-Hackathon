@@ -20,6 +20,7 @@ class LoginController extends Controller
 
   public function loginUser(Request $request)
   {
+    
       //validate
       $this->validate($request,[
         'radio' => 'required',
@@ -35,5 +36,7 @@ class LoginController extends Controller
       };
       //return redirect()->route('dashboard',['user'=>$request->radio]);
       return redirect()->route('competitions.index');
+
+
   }
 }

@@ -57,6 +57,11 @@ return [
             'provider' => 'contestants',
         ],
 
+        'evaluator' => [
+            'driver' => 'session',
+            'provider' => 'evaluators',
+        ],
+
     ],
 
     /*
@@ -90,6 +95,11 @@ return [
         'contestants' => [
             'driver' => 'eloquent',
             'model' => App\Models\Contestant::class,
+        ],
+
+        'evaluators' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Evaluator::class,
         ],
 
         // 'users' => [

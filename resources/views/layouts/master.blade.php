@@ -25,9 +25,11 @@
                 </li>
               </ul>
               @guest('administrator')
+              @guest('evaluator')
               @guest('contestant')
               <a  href={{route('login')}} class="btn btn-primary my-btn" type="submit" >Login</a>
               <a  href={{route('register')}} class="btn btn-primary my-btn ms-4" type="submit" >Register</a>
+              @endguest
               @endguest
               @endguest
 
@@ -37,6 +39,9 @@
                   <a  href={{route('logout')}} class="btn btn-primary my-btn" type="submit" >Logout</a>
               @endauth
               @auth('contestant')
+                  <a  href={{route('logout')}} class="btn btn-primary my-btn" type="submit" >Logout</a>
+              @endauth
+              @auth('evaluator')
                   <a  href={{route('logout')}} class="btn btn-primary my-btn" type="submit" >Logout</a>
               @endauth
 
