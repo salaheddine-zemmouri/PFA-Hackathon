@@ -29,20 +29,29 @@
         <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <div class="modal-header bg-warning text-white">
-                    <h5 class="modal-title">Join class</h5>
+                    <h5 class="modal-title">Join Hackathon</h5>
                     <button class="close" data-dismiss="modal">
                         <span>&times;</span>
                     </button>
                 </div>
-                <form method="POST" action={{ route('joinCompetition') }}>
+                <form id="join_competition_form" method="POST" action={{ route('joinCompetition') }}>
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">
+                            <div class="alert alert-danger mb-2" style="display: none" id="exist-msg">
+                                <strong id="exist_error"></strong>
+                            </div>
                             <label for="team_name" class="mb-2">Enter team name</label>
-                            <input type="text" class="form-control mb-2" id="team_name" name="name">
+                            <input type="text" class="form-control" id="team_name" name="name">
+                            <span class="invalid-feedback mb-2">
+                                <strong id="name_error"></strong>
+                            </span>
 
                             <label for="class_code" class="mb-2">Enter hackathon code to join</label>
-                            <input type="text" class="form-control" id="class_code" name="code">
+                            <input type="text" class="form-control" id="comp_code" name="code">
+                            <span class="invalid-feedback mb-2">
+                                <strong id="code_error"></strong>
+                            </span>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -90,7 +99,7 @@
                         <span>&times;</span>
                     </button>
                 </div>
-                <form method="POST" action="{{route('team.store')}}">
+                <form id="create_team_form" method="POST" action="{{route('team.store')}}">
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">
@@ -125,6 +134,15 @@
     <!-- CREATE HACKATHON MODAL END -->
 @endsection
 
+@section('custom-msg')
+    @if (session('status'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>{{session('status')}}</strong>
+            <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+@endsection
+
 @section('content')
     @foreach ($competitions as $competition)
     <div class="col-lg-4 col-sm-6 mb-4">
@@ -142,6 +160,41 @@
 
 @section('custom-js')
 <script type="text/javascript">
+        $(document).ready(function(){
+            $('#join_competition_form').on('submit', function(e){
+                e.preventDefault();
+                $.ajax({
+                    type:'POST',
+                    url:'/join',
+                    data:$('#join_competition_form').serialize(),
+                    dataType: 'json',
+                    success:function(data){
+                        if(data.errors) {
+                            if(data.errors.name){
+                                $('#name_error').html(data.errors.name[0]);
+                                $('#team_name').addClass('is-invalid');
+                            }
+                            if(data.errors.code){
+                                $('#code_error').html(data.errors.code[0]);
+                                $('#comp_code').addClass('is-invalid');
+                            }
+                        }
+                        if(data.success) {
+                            $('#joinCompModal').modal('hide');
+                            localStorage.setItem("success",data.OperationStatus)
+                            window.location.reload();
+                        }
+                        if(data.exist){
+                            $('#exist_error').html("Hackathon already Joined");
+                            $('#exist-msg').css('display', 'block');
+                            $('#team_name').val("");
+                            $('#comp_code').val("");
+                        }
+                    },
+                })
+            })
+        })
+
         function createNewInput(n){
             const div = document.createElement('div'); //team_member
             div.setAttribute('class','team_member mb-2');
@@ -175,6 +228,9 @@
             else deleteLastInput();
             old = n;
         });
+
+        
+
 
 </script>
 @endsection
