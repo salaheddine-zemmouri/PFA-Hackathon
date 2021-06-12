@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Competition;
+use App\Models\CompetitionEvaluatorObjective;
+use App\Models\Evaluator;
 use App\Models\Objective;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -28,11 +30,13 @@ class ObjectiveController extends Controller
             $objectives = $competition->objectives()
                     ->orderBy('created_at','desc')
                     ->paginate(8);
+            $evaluators = $competition->evaluators;
 
             return view('admin.objectives',[
                 'objectives' => $objectives,
                 'admin' => $admin,
                 'competition' => $competition,
+                'evaluators' => $evaluators,
             ]);
         }
     }
@@ -57,18 +61,33 @@ class ObjectiveController extends Controller
     {
         //validation
         $validator = Validator::make($request->all(), [
-            'objective' => 'bail|required',
+            'objective' => 'required',
+            'evaluator' =>'required',
         ]);
 
         if($validator->fails()){
             return response()->json(['errors' => $validator->errors()]);
         }else{
-            $competition = Competition::find($competition_id);
+            //$competition = Competition::find($competition_id);
+            $evaluator_id = $request->input('evaluator');
+            $subscription =  CompetitionEvaluatorObjective::where('competition_id',$competition_id)->where('evaluator_id',$evaluator_id)->first();
+            //dd($subscription->objective_id);
             $objective = new Objective();
 
             $objective->title = $request->input('objective');
             $objective->administrator_id = Auth::guard('administrator')->user()->id;
-            $objective->competition()->associate($competition)->save();
+            $objective->save();
+            
+            if($subscription->objective_id != null){
+                CompetitionEvaluatorObjective::create([
+                    'competition_id' => $competition_id,
+                    'evaluator_id' => $evaluator_id,
+                    'objective_id' => $objective->id,
+                ]);
+            }else{
+                $subscription->objective_id = $objective->id;
+                $subscription->save();
+            }
 
             return response()->json(['success' => '1']);
         }

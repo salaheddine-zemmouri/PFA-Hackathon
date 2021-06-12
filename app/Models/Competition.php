@@ -25,7 +25,7 @@ class Competition extends Model
     }
 
     public function objectives(){
-        return $this->belongsTo(Objective::class,'objective_id','id');
+        return $this->belongsToMany(Objective::class,'competition_evaluator_objectives');
     }
 
     public function evaluators(){

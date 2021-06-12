@@ -50,6 +50,7 @@
                 <tr>
                     <th></th>
                     <th>Objective</th>
+                    <th>Evaluator</th>
                     <th>Edit</th>
                     <th>Delete</th>
                 </tr>
@@ -61,6 +62,7 @@
                         <input type="hidden" id="objective-id" name="objective-id" value="{{ $objective->id }}">
                     </td>
                     <td>{{ $objective->title }}</td>
+                    <td>{{ $objective->evaluators()->first()->name }}</td>
                     <td>
                         <a href="#" class="btn btn-light edit-obj" data-bs-toggle="modal" data-bs-target="#editObjectiveModal">
                             <i class="fas fa-edit"></i>
@@ -104,6 +106,22 @@
                         <input type="text" name="objective" class="form-control" id="objective" value="{{ old('objective') }}">
                         <span class="invalid-feedback">
                             <strong id="obj-error"></strong>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label for="evaluator">Evaluator</label>
+                        <select name="evaluator" class="form-select" id="evaluator">
+                            @if (old('evaluator') != '')
+                            <option selected>{{old('evaluator')}}</option>
+                            @else
+                            <option selected disabled value="">Choose evaluator..</option>
+                            @endif
+                            @foreach ($evaluators as $evaluator)
+                            <option value="{{$evaluator->id}}">{{$evaluator->name}}</option>
+                            @endforeach
+                        </select>
+                        <span class="invalid-feedback">
+                            <strong id="evaluator-error"></strong>
                         </span>
                     </div>
                 </div>
@@ -225,6 +243,8 @@
             e.preventDefault();
             $('#obj-error').html("");
             $('#objective').removeClass('is-invalid');
+            $('#evaluator-error').html("");
+            $('#evaluator').removeClass('is-invalid');
             $.ajax({
                 type:'POST',
                 url:'/competitions/'+competition_id+'/objectives',
@@ -235,6 +255,10 @@
                         if(data.errors.objective){
                             $('#obj-error').html(data.errors.objective[0]);
                             $('#objective').addClass('is-invalid');
+                        }
+                        if(data.errors.evaluator){
+                            $('#evaluator-error').html(data.errors.evaluator[0]);
+                            $('#evaluator').addClass('is-invalid');
                         }
                     }
                     if(data.success) {

@@ -21,11 +21,11 @@ class Objective extends Model
         return $this->belongsTo(Administrator::class,'administrator_id','id');
     }
 
-    public function competition(){
-        return $this->belongsTo(Competition::class,'competition_id','id');
+    public function competitions(){
+        return $this->belongsToMany(Competition::class,'competition_evaluator_objectives');
     }
 
-    public function evaluator(){
-        return $this->belongsTo(Evaluator::class,'evaluator_id','id');
+    public function evaluators(){
+        return $this->belongsToMany(Evaluator::class,'competition_evaluator_objectives');
     }
 }
