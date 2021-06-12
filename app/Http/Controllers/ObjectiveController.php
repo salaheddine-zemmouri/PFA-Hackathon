@@ -152,6 +152,11 @@ class ObjectiveController extends Controller
     public function destroy(Request $request, $competition_id, $objective_id)
     {
         $objective = Objective::find($objective_id);
+        $subscription = CompetitionEvaluatorObjective::where('competition_id',$competition_id )
+                                        ->where('objective_id',$objective_id)->first();
+        
+        $subscription->objective_id = null;
+        $subscription->save();
         $objective->delete();
         $request->session()->flash('objective_deleted', 'Record successefully deleted');
         return redirect()->route('competitions.objectives.index',$competition_id);
