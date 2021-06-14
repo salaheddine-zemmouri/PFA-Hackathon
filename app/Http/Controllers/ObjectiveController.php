@@ -51,6 +51,7 @@ class ObjectiveController extends Controller
                 'objectives' => $objectives->sortByDesc('created_at'),
                 'evaluator' => $evaluator,
                 'competition' => $competition,
+                'active' => 'objectives',
             ]);
 
         }

@@ -49,6 +49,7 @@ class TeamController extends Controller
                 'teams' => $teams,
                 'evaluator' => $evaluator,
                 'competition' => $competition,
+                'active' => 'teams'
             ]);
 
         }
