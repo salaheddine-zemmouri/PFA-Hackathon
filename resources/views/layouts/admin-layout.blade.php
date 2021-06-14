@@ -25,7 +25,10 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
-                <ul class="navbar-nav">                   
+                <ul class="navbar-nav">
+                    <li class="nav-item px-2" id="competition-teams">
+                        <a href="{{ route('competitions.index') }}" class="nav-link">My competitions</a>
+                    </li>                    
                     <li class="nav-item px-2" id="competition-teams">
                         <a href="{{ route('competitions.teams.index',$competition->id) }}" class="nav-link @if ($active == 'teams') active @endif">Teams</a>
                     </li>                  

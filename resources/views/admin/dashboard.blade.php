@@ -49,7 +49,7 @@
                         <input type="hidden" name="competition-id" id="competition-id" value="{{$competition->id}}">
                     </td>
                     <td>
-                        <a href="#" class="btn btn-primary">Visit</a>
+                        <a href="{{ route('competitions.teams.index',$competition->id) }}" class="btn btn-primary">Visit</a>
                     </td>
                     <td>
                         <a href="{{route('competitions.edit',$competition->id)}}" class="btn btn-warning">Edit</a>

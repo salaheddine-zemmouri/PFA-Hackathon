@@ -29,7 +29,7 @@
                 </ul>
                 <ul class="navbar-nav ml-auto d-flex">
                     <li class="nav-item dropdown mr-3">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                        <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">
                             <i class="fas fa-user"></i> Welcome {{ $user->name }}
                         </a>
                         <div class="dropdown-menu">
