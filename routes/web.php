@@ -59,5 +59,5 @@ Route::get('/teams', function(){
 Route::resource('/competitions.objectives',ObjectiveController::class)->only(['index','store','edit','update','destroy']);
 Route::resource('/competitions.evaluators',EvaluatorController::class)->only(['index','store','destroy']);
 Route::post('/evaluate/{team_id}/objective/{objective_id}',[ObjectiveController::class,'evaluateObjective'])->name('evaluate.objective');
-
+Route::resource('/competitions.teams',TeamController::class)->only('index');
 Route::resource('/team',TeamController::class);

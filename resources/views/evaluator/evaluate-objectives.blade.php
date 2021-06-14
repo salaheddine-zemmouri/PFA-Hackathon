@@ -1,7 +1,7 @@
 @extends('layouts.evaluator-layout')
 
 @section('title')
-<title>Hackathon - Objectives</title>
+<title>Hackathon - Evaluate Objectives</title>
 @endsection
 
 @section('actions')

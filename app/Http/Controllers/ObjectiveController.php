@@ -234,7 +234,6 @@ class ObjectiveController extends Controller
             $validatedObjective->save();
         }
         return back();
-        //$2y$10$Uk0.BSp4qNSa60k4Kx7JWe1FUQ5PZ8193QlmA7d1No/i.dt52guR6
         //dd($validatedObjective->note);
     }
 }
