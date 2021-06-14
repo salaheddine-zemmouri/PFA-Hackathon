@@ -36,8 +36,8 @@
                     </td>
                     <td>{{ $objective->title }}</td>
                     <td>
-                        <a href="#" class="btn btn-light evaluate-obj">
-                            <i class="fas fa-info"></i>
+                        <a href="{{route('competitions.objectives.edit',[$competition->id,$objective->id])}}" class="btn btn-light evaluate-obj">
+                            <i class="fas fa-info-circle"></i>
                         </a>
                     </td>
                 </tr>
@@ -51,7 +51,7 @@
             </tbody>
         </table>
         <div class="pagination justify-content-center">
-            {{ $objectives->links() }}
+            
         </div>
     </div>
 </div>

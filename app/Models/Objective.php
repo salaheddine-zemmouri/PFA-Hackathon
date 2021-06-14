@@ -30,4 +30,8 @@ class Objective extends Model
     public function evaluators(){
         return $this->belongsToMany(Evaluator::class,'competition_evaluator_objectives');
     }
+
+    public function validatedObjectives(){
+        return $this->hasMany(ValidatedObjective::class,'objective_id','id');
+    }
 }

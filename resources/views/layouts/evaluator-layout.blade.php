@@ -24,7 +24,7 @@
             <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                 <ul class="navbar-nav">                   
                     <li class="nav-item px-2" id="competition-name">
                         <a href="#" class="nav-link active">Teams</a>
@@ -37,7 +37,7 @@
                 <ul class="navbar-nav ml-auto d-flex">
                     <li class="nav-item dropdown mr-3">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <i class="fas fa-user"></i> Welcome Evaluator
+                            <i class="fas fa-user"></i> Welcome {{$evaluator->name}}
                         </a>
                         <div class="dropdown-menu">
                             <a href="#" class="dropdown-item">
@@ -78,7 +78,7 @@
                     <div class="col-md-3">
                         <div class="card text-center bg-success text-white mb-3 shadow">
                             <div class="card-body ">
-                                <h1>Hackathon ENSIAS FINETECH</h1>
+                                <h1>{{$competition->name}}</h1>
                                 {{-- <h4 class="display-4 ">
                                     <i class="fas fa-users"></i>
                                 </h4>
@@ -89,7 +89,7 @@
                         <div class="card text-center bg-primary text-white mb-3 shadow">
                             <div class="card-body ">
                                 <h3>Access code:</h3>
-                                <h4>7s9G41V</h>
+                                <h4>{{$competition->code}}</h4>
                                 {{-- <h4 class="display-4 ">
                                     <i class="fas fa-user-check"></i>
                                 </h4>

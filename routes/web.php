@@ -10,6 +10,7 @@ use App\Http\Controllers\CompetitionController;
 use App\Http\Controllers\ObjectiveController;
 use App\Http\Controllers\EvaluatorController;
 use App\Http\Controllers\TeamController;
+use App\Http\Controllers\ValidatedObjectiveController;
 use App\Models\Competition;
 use Illuminate\Support\Facades\Hash;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
@@ -55,8 +56,8 @@ Route::post('/join',[Competitioncontroller::class,'join'])->name('joinCompetitio
 Route::get('/teams', function(){
   return view('admin.teams');
 });
-Route::resource('/competitions.objectives',ObjectiveController::class)->only(['index','store','update','destroy']);
+Route::resource('/competitions.objectives',ObjectiveController::class)->only(['index','store','edit','update','destroy']);
 Route::resource('/competitions.evaluators',EvaluatorController::class)->only(['index','store','destroy']);
-
+Route::post('/evaluate/{team_id}/objective/{objective_id}',[ObjectiveController::class,'evaluateObjective'])->name('evaluate.objective');
 
 Route::resource('/team',TeamController::class);

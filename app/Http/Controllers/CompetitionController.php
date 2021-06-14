@@ -29,7 +29,7 @@ class CompetitionController extends Controller
             $competitions = Competition::where('administrator_id', $admin->id)->get();
             return view('admin.dashboard',[
                 'competitions' => $competitions->sortByDesc('created_at'),
-                'admin' => $admin,
+                'user' => $admin,
             ]);
         }elseif (Auth::guard('contestant')->check()) {
             $participations = [];
@@ -51,8 +51,11 @@ class CompetitionController extends Controller
             ]);
         }elseif(Auth::guard('evaluator')->check()){
             $evaluator = Auth::guard('evaluator')->user();
-            $competitions = CompetitionEvaluatorObjective::where('evaluator_id',$evaluator->id)->all();
-            dd($competitions);
+            $competitions = $evaluator->competitions;
+            return view('evaluator.dashboard',[
+                'competitions' => $competitions->unique()->sortByDesc('created_at'),
+                'user' => $evaluator,
+            ]);
         }
 
 

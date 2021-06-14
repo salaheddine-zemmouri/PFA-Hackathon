@@ -21,7 +21,7 @@
             <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                 <ul class="navbar-nav">                   
                     <li class="nav-item px-2" id="myCompetitions">
                         <a href="#" class="nav-link active">My Competitions</a>
@@ -30,7 +30,7 @@
                 <ul class="navbar-nav ml-auto d-flex">
                     <li class="nav-item dropdown mr-3">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <i class="fas fa-user"></i> Welcome {{ $admin->name }}
+                            <i class="fas fa-user"></i> Welcome {{ $user->name }}
                         </a>
                         <div class="dropdown-menu">
                             <a href="#" class="dropdown-item">
