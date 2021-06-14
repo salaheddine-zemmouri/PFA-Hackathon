@@ -151,7 +151,8 @@
                 <h4 class="card-title">{{$competition->name}}</h4>
                 <p class="card-text">From : {{$competition->start_date}}</p>
                 <p class="card-text">To : {{$competition->end_date}}</p>
-                <a href="#" class="btn btn-primary">Go</a>
+                <a href="#" class="btn btn-primary">Enter</a>
+                <a href="#" class="btn btn-danger">Exit</a>
             </div>
         </div>
     </div>

@@ -16,11 +16,15 @@
       </div>
 
       <div class="col-6 d-flex justify-content-center align-items-center">
-        <div class="form-container w-75">
-          <div class="m-5 row justify-content-center ">
-
+        <div class="form-container w-70">
+          <div class="ms-5 me-5 mt-3 mb-3 row justify-content-center ">
               <h3 class="text-center color-primary mb-4">Sign In</h3>
               <h6 class="text-center color-secondary fw-light mb-4">Who are you ?</h6>
+              @if (session('status'))
+                <div class="alert alert-danger text-center">
+                  {{session('status')}}
+                </div>
+              @endif
               <form action="{{route('login')}}" method="POST" class="mb-4">
                   @csrf
                   <div class="radio-buttons d-flex justify-content-center mb-4">
