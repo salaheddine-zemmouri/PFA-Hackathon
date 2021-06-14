@@ -28,12 +28,9 @@
                 <ul class="navbar-nav">
                     <li class="nav-item px-2" id="competition-teams">
                         <a href="{{ route('competitions.index') }}" class="nav-link">My competitions</a>
-                    </li>                    
+                    </li>                   
                     <li class="nav-item px-2" id="competition-teams">
                         <a href="{{ route('competitions.teams.index',$competition->id) }}" class="nav-link @if ($active == 'teams') active @endif">Teams</a>
-                    </li>                  
-                    <li class="nav-item px-2" id="competition-evaluators">
-                        <a href="{{ route('competitions.evaluators.index',$competition->id) }}" class="nav-link @if ($active == 'evaluators') active @endif">Evaluators</a>
                     </li>
                     <li class="nav-item px-2" id="competition-objectives">
                         <a href="{{ route('competitions.objectives.index',$competition->id) }}" class="nav-link @if ($active == 'objectives') active @endif">Objectives</a>
@@ -43,10 +40,10 @@
                 <ul class="navbar-nav ml-auto d-flex">
                     <li class="nav-item dropdown mr-3">
                         <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">
-                            <i class="fas fa-user"></i> Welcome {{$admin->name}}
+                            <i class="fas fa-user"></i> Welcome {{$evaluator->name}}
                         </a>
                         <div class="dropdown-menu">
-                            <a href="{{route('edit.profile',$admin->id)}}" class="dropdown-item">
+                            <a href="{{route('edit.profile',$evaluator->id)}}" class="dropdown-item">
                                 <i class="fas fa-user-circle"></i> Profile Settings
                             </a>
                             <a href={{route('logout')}} class="dropdown-item">

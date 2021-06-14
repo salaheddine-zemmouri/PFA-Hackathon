@@ -14,6 +14,10 @@ class Team extends Model
     protected $fillable = [
         'name'
     ];
+
+    public function objectives(){
+        return $this->belongsToMany(Objective::class,'validated_objectives');
+    }
     
     
 

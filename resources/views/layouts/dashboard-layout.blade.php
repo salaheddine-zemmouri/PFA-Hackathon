@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Hackathon - Competitions</title>
+    @yield('title')
     <!-- Bootstrap CSS link -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
     <!-- Fontawesome CSS link -->
@@ -21,7 +21,7 @@
             <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                 <ul class="navbar-nav">                   
                     <li class="nav-item px-2" id="myCompetitions">
                         <a href="#" class="nav-link active">My Competitions</a>
@@ -29,11 +29,11 @@
                 </ul>
                 <ul class="navbar-nav ml-auto d-flex">
                     <li class="nav-item dropdown mr-3">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <i class="fas fa-user"></i> Welcome {{ $admin->name }}
+                        <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">
+                            <i class="fas fa-user"></i> Welcome {{ $user->name }}
                         </a>
                         <div class="dropdown-menu">
-                            <a href="#" class="dropdown-item">
+                            <a href="{{route('edit.profile',$user->id)}}" class="dropdown-item">
                                 <i class="fas fa-user-circle"></i> Profile Settings
                             </a>
                             <a href={{route('logout')}} class="dropdown-item">

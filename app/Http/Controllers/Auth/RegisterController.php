@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-
-use App\Models\Administrator;
+use Auth ;
+use App\Models\Evaluator;
 use App\Models\Contestant;
 
-use Auth ;
+use Illuminate\Http\Request;
+use App\Models\Administrator;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
 {
@@ -90,7 +91,16 @@ class RegisterController extends Controller
      */
     public function edit($id)
     {
-        //
+      if(Auth::guard('administrator')->check()){
+        $user = Administrator::find($id);
+      }elseif(Auth::guard('evaluator')->check()){
+        $user = Evaluator::find($id);
+      }elseif(Auth::guard('contestant')->check()){
+        $user = Contestant::find($id);
+      }
+      return view('layouts.edit-profile',[
+        'user' => $user,
+      ]);
     }
 
     /**
@@ -102,7 +112,27 @@ class RegisterController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+      //validate
+      $this->validate($request,[
+        'name' => 'required',
+        'email' => 'required | email',
+      ]);
+      if(Auth::guard('administrator')->check()){
+        $user = Administrator::find($id);
+      }elseif(Auth::guard('evaluator')->check()){
+        $user = Evaluator::find($id);
+      }elseif(Auth::guard('contestant')->check()){
+        $user = Contestant::find($id);
+      }
+
+      $user->name = $request->input('name');
+      $user->email = $request->input('email');
+      if($request->input('password') != null){
+        $user->password = Hash::make($request->input('password'));
+      }
+      $user->save();
+      $request->session()->flash('profile_edited', 'Profile successefully edited');
+      return redirect()->route('competitions.index');
     }
 
     /**

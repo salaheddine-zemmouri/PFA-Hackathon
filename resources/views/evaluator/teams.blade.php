@@ -1,4 +1,4 @@
-@extends('layouts.admin-layout')
+@extends('layouts.evaluator-layout')
 
 @section('title')
 <title>Hackathon - Teams</title>
@@ -12,17 +12,20 @@
 
 @section('content')
 <div class="col-md-9">
-    <input type="hidden" name="competition-id" id="competition-id" value="{{$competition->id}}">
+    {{-- Get competition id --}}
+    <input type="hidden" name="competition-id" id="competition-id" value="{{ $competition->id }}">
+
+    {{-- Teams Datatable --}}
     <div class="card shadow-sm">
         <div class="card-header">
             <h4>Teams</h4>
         </div>
-        <table class="table table-hover" id="datatable-confirmed">
+        <table class="table table-hover" id="datatable">
             <thead class="thead-light table-secondary">
                 <tr>
                     <th></th>
-                    <th>Team Name</th>
-                    <th>View</th>
+                    <th>Teams</th>
+                    <th>Download work</th>
                 </tr>
             </thead>
             <tbody>
@@ -33,8 +36,8 @@
                     </td>
                     <td>{{ $team->name }}</td>
                     <td>
-                        <a href="#" class="btn btn-light view-team">
-                            <i class="fas fa-info-circle"></i>
+                        <a href="#" class="btn btn-light download-work">
+                            <i class="fas fa-download"></i>
                         </a>
                     </td>
                 </tr>
@@ -55,9 +58,7 @@
 @endsection
 
 @section('customised-modal')
-    
 @endsection
 
 @section('customised-js')
-    
 @endsection

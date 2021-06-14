@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Competition;
-use App\Models\CompetitionEvaluatorObjective;
+use App\Models\Team;
 use App\Models\Evaluator;
 use App\Models\Objective;
+use App\Models\Competition;
+use App\Models\Participant;
 use Illuminate\Http\Request;
+use App\Models\ValidatedObjective;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use App\Models\CompetitionEvaluatorObjective;
 
 class ObjectiveController extends Controller
 {
@@ -37,7 +40,20 @@ class ObjectiveController extends Controller
                 'admin' => $admin,
                 'competition' => $competition,
                 'evaluators' => $evaluators->unique()->sortBy('name'),
+                'active' => 'objectives',
             ]);
+        }elseif(Auth::guard('evaluator')->check()){
+            $evaluator = Auth::guard('evaluator')->user();
+            //$objectives = CompetitionEvaluatorObjective::where('competition_id',$competition_id)->where('evaluator_id',$evaluator->id)->all();
+            $objectives = $evaluator->objectives()->where('competition_id',$competition->id)->get();
+            //dd($objectives);
+            return view('evaluator.objectives',[
+                'objectives' => $objectives->sortByDesc('created_at'),
+                'evaluator' => $evaluator,
+                'competition' => $competition,
+                'active' => 'objectives',
+            ]);
+
         }
     }
 
@@ -110,9 +126,27 @@ class ObjectiveController extends Controller
      * @param  \App\Models\Objective  $objective
      * @return \Illuminate\Http\Response
      */
-    public function edit(Objective $objective)
+    public function edit($competition_id, $objective_id)
     {
-        //
+        if(Auth::guard('evaluator')->check()){
+            $evaluator = Auth::guard('evaluator')->user();
+            $competition = Competition::find($competition_id);
+            $objective = Objective::find($objective_id);
+            $participations = Participant::where('competition_id',$competition_id)->get();
+            $teams = [];
+            $i = 0;
+            foreach ($participations as $participation) {
+                $teams[$i++] = Team::find($participation->team_id);
+            }
+            //dd($teams);
+            return view('evaluator.evaluate-objectives',[
+                'evaluator' => $evaluator,
+                'competition' => $competition,
+                'teams' => $teams,
+                'objective' => $objective,
+                'active' => 'objectives',
+            ]);
+        }
     }
 
     /**
@@ -181,5 +215,28 @@ class ObjectiveController extends Controller
         $objective->delete();
         $request->session()->flash('objective_deleted', 'Record successefully deleted');
         return redirect()->route('competitions.objectives.index',$competition_id);
+    }
+
+    public function evaluateObjective(Request $request, $team_id, $objective_id)
+    {
+        $request->validate([
+            'mark' => 'required',
+        ]);
+
+        //dd($request->input('mark'));
+        $validatedObjective = ValidatedObjective::where('objective_id',$objective_id)->where('team_id',$team_id)->first();
+        //dd($validatedObjective);
+        if($validatedObjective == null){
+            ValidatedObjective::create([
+                'objective_id' => $objective_id,
+                'team_id' => $team_id,
+                'note' => $request->input('mark'),
+            ]);
+        }else{
+            $validatedObjective->note = $request->input('mark');
+            $validatedObjective->save();
+        }
+        return back();
+        //dd($validatedObjective->note);
     }
 }

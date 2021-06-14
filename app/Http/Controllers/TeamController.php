@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Contestant;
-use Illuminate\Http\Request;
 use App\Models\Team;
+use App\Models\Contestant;
+use App\Models\Competition;
+use App\Models\Participant;
+use Illuminate\Http\Request;
 use App\Models\TeamSubscription;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 
 class TeamController extends Controller
@@ -16,9 +19,40 @@ class TeamController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($competition_id)
     {
-        //
+        if(Auth::guard('administrator')->check()){
+            $admin = Auth::guard('administrator')->user();
+            $competition = Competition::find($competition_id);
+            $participations = Participant::where('competition_id',$competition_id)->get();
+            $teams = [];
+            $i = 0;
+            foreach ($participations as $participation) {
+                $teams[$i++] = Team::find($participation->team_id);
+            }
+            return view('admin.teams',[
+                'teams' => $teams,
+                'admin' => $admin,
+                'competition' => $competition,
+                'active' => 'teams'
+            ]);
+        }elseif(Auth::guard('evaluator')->check()){
+            $evaluator = Auth::guard('evaluator')->user();
+            $competition = Competition::find($competition_id);
+            $participations = Participant::where('competition_id',$competition_id)->get();
+            $teams = [];
+            $i = 0;
+            foreach ($participations as $participation) {
+                $teams[$i++] = Team::find($participation->team_id);
+            }
+            return view('evaluator.teams',[
+                'teams' => $teams,
+                'evaluator' => $evaluator,
+                'competition' => $competition,
+                'active' => 'teams'
+            ]);
+
+        }
     }
 
     /**

@@ -1,5 +1,9 @@
 @extends('layouts.dashboard-layout')
 
+@section('title')
+<title>Hackathon - Dashboard</title>
+@endsection
+
 @section('actions')
 <div class="col-md-4 offset-1 d-grid gap-2">
     <a href="#" class="btn btn-success shadow" data-bs-toggle="modal" data-bs-target="#createCompModal">
@@ -33,6 +37,14 @@
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
 @endif
+
+{{-- Success msg after profile edition --}}
+@if (session()->has('profile_edited'))
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>{{ session()->get('profile_edited') }}</strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+@endif
 @endsection
 
 @section('content')
@@ -49,7 +61,7 @@
                         <input type="hidden" name="competition-id" id="competition-id" value="{{$competition->id}}">
                     </td>
                     <td>
-                        <a href="#" class="btn btn-primary">Visit</a>
+                        <a href="{{ route('competitions.teams.index',$competition->id) }}" class="btn btn-primary">Visit</a>
                     </td>
                     <td>
                         <a href="{{route('competitions.edit',$competition->id)}}" class="btn btn-warning">Edit</a>

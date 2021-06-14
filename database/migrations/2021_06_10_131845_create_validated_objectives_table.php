@@ -14,7 +14,7 @@ class CreateValidatedObjectivesTable extends Migration
     public function up()
     {
         Schema::create('validated_objectives', function (Blueprint $table) {
-            $table->primary(['objective_id','team_id']);
+            $table->id();
             $table->foreignId('objective_id')->constrained();
             $table->foreignId('team_id')->constrained();
             $table->boolean('note');

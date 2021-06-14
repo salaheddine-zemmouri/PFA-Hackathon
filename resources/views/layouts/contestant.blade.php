@@ -30,11 +30,11 @@
 
                 <ul class="navbar-nav ml-auto d-flex">
                     <li class="nav-item dropdown mr-3">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                        <a href="#" class="nav-link dropdown-toggle active" data-toggle="dropdown">
                             <i class="fas fa-user"></i> Welcome {{ $contestant->name }}
                         </a>
                         <div class="dropdown-menu">
-                            <a href="#" class="dropdown-item">
+                            <a href="{{route('edit.profile',$contestant->id)}}" class="dropdown-item">
                                 <i class="fas fa-user-circle"></i> Profile Settings
                             </a>
                             <a href={{route('logout')}} class="dropdown-item">
