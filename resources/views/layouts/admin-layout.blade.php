@@ -26,20 +26,20 @@
             </button>
             <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                 <ul class="navbar-nav">                   
-                    <li class="nav-item px-2" id="competition-name">
-                        <a href="#" class="nav-link active">Teams</a>
+                    <li class="nav-item px-2" id="competition-teams">
+                        <a href="{{ route('competitions.teams.index',$competition->id) }}" class="nav-link @if ($active == 'teams') active @endif">Teams</a>
                     </li>                  
-                    <li class="nav-item px-2" id="competition-code">
-                        <a href="#" class="nav-link active">Evaluators</a>
+                    <li class="nav-item px-2" id="competition-evaluators">
+                        <a href="{{ route('competitions.evaluators.index',$competition->id) }}" class="nav-link @if ($active == 'evaluators') active @endif">Evaluators</a>
                     </li>
-                    <li class="nav-item px-2" id="competition-code">
-                        <a href="#" class="nav-link active">Objectives</a>
+                    <li class="nav-item px-2" id="competition-objectives">
+                        <a href="{{ route('competitions.objectives.index',$competition->id) }}" class="nav-link @if ($active == 'objectives') active @endif">Objectives</a>
                     </li>
                 </ul>
 
                 <ul class="navbar-nav ml-auto d-flex">
                     <li class="nav-item dropdown mr-3">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                        <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">
                             <i class="fas fa-user"></i> Welcome {{$admin->name}}
                         </a>
                         <div class="dropdown-menu">

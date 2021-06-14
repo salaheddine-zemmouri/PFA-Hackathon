@@ -34,6 +34,7 @@ class TeamController extends Controller
                 'teams' => $teams,
                 'admin' => $admin,
                 'competition' => $competition,
+                'active' => 'teams'
             ]);
         }elseif(Auth::guard('evaluator')->check()){
             $evaluator = Auth::guard('evaluator')->user();

@@ -35,6 +35,7 @@ class EvaluatorController extends Controller
                 'evaluators' => $evaluators,
                 'admin' => $admin,
                 'competition' => $competition,
+                'active' => 'evaluators',
             ]);
         }
     }

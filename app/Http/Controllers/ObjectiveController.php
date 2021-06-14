@@ -40,6 +40,7 @@ class ObjectiveController extends Controller
                 'admin' => $admin,
                 'competition' => $competition,
                 'evaluators' => $evaluators->unique()->sortBy('name'),
+                'active' => 'objectives',
             ]);
         }elseif(Auth::guard('evaluator')->check()){
             $evaluator = Auth::guard('evaluator')->user();
@@ -142,6 +143,7 @@ class ObjectiveController extends Controller
                 'competition' => $competition,
                 'teams' => $teams,
                 'objective' => $objective,
+                'active' => 'objectives',
             ]);
         }
     }
