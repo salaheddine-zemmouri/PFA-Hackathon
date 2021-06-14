@@ -53,11 +53,8 @@ Route::resource('/competitions.objectives',ObjectiveController::class)->only(['i
 
 Route::post('/join',[Competitioncontroller::class,'join'])->name('joinCompetition');
 
-Route::get('/teams', function(){
-  return view('admin.teams');
-});
 Route::resource('/competitions.objectives',ObjectiveController::class)->only(['index','store','edit','update','destroy']);
 Route::resource('/competitions.evaluators',EvaluatorController::class)->only(['index','store','destroy']);
 Route::post('/evaluate/{team_id}/objective/{objective_id}',[ObjectiveController::class,'evaluateObjective'])->name('evaluate.objective');
-Route::resource('/competitions.teams',TeamController::class)->only('index');
+Route::resource('/competitions.teams',TeamController::class)->only('index','store');
 Route::resource('/team',TeamController::class);
