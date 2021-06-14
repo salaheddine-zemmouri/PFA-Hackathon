@@ -43,7 +43,7 @@
                             <i class="fas fa-user"></i> Welcome {{$evaluator->name}}
                         </a>
                         <div class="dropdown-menu">
-                            <a href="#" class="dropdown-item">
+                            <a href="{{route('edit.profile',$evaluator->id)}}" class="dropdown-item">
                                 <i class="fas fa-user-circle"></i> Profile Settings
                             </a>
                             <a href={{route('logout')}} class="dropdown-item">

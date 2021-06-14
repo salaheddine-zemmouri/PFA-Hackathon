@@ -1,5 +1,9 @@
 @extends('layouts.dashboard-layout')
 
+@section('title')
+<title>Hackathon - Dashboard</title>
+@endsection
+
 @section('actions')
 <div class="col-md-4 offset-1 d-grid gap-2">
     <a href="#" class="btn btn-success shadow" data-bs-toggle="modal" data-bs-target="#createCompModal">
@@ -30,6 +34,14 @@
 @if (session()->has('competition_deleted'))
 <div class="alert alert-success alert-dismissible fade show" role="alert">
     <strong>{{ session()->get('competition_deleted') }}</strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+@endif
+
+{{-- Success msg after profile edition --}}
+@if (session()->has('profile_edited'))
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>{{ session()->get('profile_edited') }}</strong>
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
 @endif

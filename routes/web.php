@@ -58,3 +58,5 @@ Route::resource('/competitions.evaluators',EvaluatorController::class)->only(['i
 Route::post('/evaluate/{team_id}/objective/{objective_id}',[ObjectiveController::class,'evaluateObjective'])->name('evaluate.objective');
 Route::resource('/competitions.teams',TeamController::class)->only('index','store');
 Route::resource('/team',TeamController::class);
+Route::get('/edit/{user_id}',[RegisterController::class,'edit'])->name('edit.profile');
+Route::put('/update/{user_id}',[RegisterController::class,'update'])->name('update.profile');

@@ -141,6 +141,14 @@
             <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
+
+    {{-- Success msg after profile edition --}}
+@if (session()->has('profile_edited'))
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>{{ session()->get('profile_edited') }}</strong>
+    <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+</div>
+@endif
 @endsection
 
 @section('content')
