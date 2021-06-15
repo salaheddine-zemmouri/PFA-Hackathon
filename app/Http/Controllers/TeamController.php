@@ -8,8 +8,12 @@ use App\Models\Competition;
 use App\Models\Participant;
 use Illuminate\Http\Request;
 use App\Models\TeamSubscription;
+use App\Mail\ContestantAlertMail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ContestantInvitationMail;
 
 
 class TeamController extends Controller
@@ -89,6 +93,29 @@ class TeamController extends Controller
             $i++;
             if($i>3){
                 $user = DB::table('contestants')->where('email','=',$key)->first();
+                if($user == null){
+                    $password = "password";
+                    Contestant::create([
+                        'name' => $key,
+                        'email' => $key,
+                        'password' => Hash::make($password),
+                    ]);
+                    $user = DB::table('contestants')->where('email','=',$key)->first();
+                    // sending invitation to the contestant by email
+                    $details=[
+                        'team_name' => $request->name,
+                        'contestant_email' => $key,
+                        'contestant_password' => $password,
+                    ];
+
+                    Mail::to($key)->send(new ContestantInvitationMail($details));
+                }else{
+                    $details=[
+                        'team_name' => $request->name,
+                    ];
+
+                    Mail::to($key)->send(new ContestantAlertMail($details));
+                }
                 $team = DB::table('teams')->where('name','=',$request->name)->first();
                 TeamSubscription::create([
                     'contestant_id' => $user->id,
