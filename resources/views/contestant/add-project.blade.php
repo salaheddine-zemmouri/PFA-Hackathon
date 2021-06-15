@@ -1,4 +1,4 @@
-@extends('layouts.dashboard-layout')
+@extends('layouts.contestant-layout')
 
 @section('actions')
 

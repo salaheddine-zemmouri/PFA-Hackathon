@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Competition;
 use App\Models\Team;
-use App\Models\File;
+use App\Models\Participant;
 use App\Models\Project;
+use App\Models\TeamSubscription;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -21,12 +22,21 @@ class ProjectController extends Controller
     {
         $competition = Competition::find($competition_id);
         $team = Team::find($team_id);
+        $project = Project::find(
+                    Participant::where('competition_id',$competition_id)
+                   ->where('team_id',$team_id)
+                   ->first()->project_id); 
         if(Auth::guard('contestant')->check()){
             $contestant = Auth::guard('contestant')->user();
+            $leader = TeamSubscription::where('contestant_id',$contestant->id)
+                      ->where('team_id',$team_id)
+                      ->first()->leader;
             return view('contestant.project',[
                 'team' => $team,
                 'competition' => $competition,
                 'contestant' => $contestant,
+                'leader' => $leader,
+                'project' => $project,
                 'active' => 'project'
             ]);
         }
@@ -44,9 +54,11 @@ class ProjectController extends Controller
             $team = Team::find($team_id);
             $contestant = Auth::guard('contestant')->user();
             return view('contestant.add-project',[
+                'contestant' => $contestant,
                 'user' => $contestant,
                 'competition' => $competition,
                 'team' => $team,
+                'active' => 'project'
             ]);
         }
     }
@@ -120,9 +132,32 @@ class ProjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,$competition_id , $team_id, $project_id)
     {
-        //
+        // validation
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+            'file' => 'required|mimes:pdf,zip,rar'
+        ]); 
+        // store the file in Files
+        if($request->hasFile('file')){
+            $fileName = time().'_'.$request->file->getClientOriginalName();
+            $filePath = $request->file('file')->storeAs('public/uploads', $fileName);
+            $file_id = DB::table('files')->insertGetId(
+                ['file_path' => $filePath]
+            );
+            
+            // update project
+            DB::table('projects')->where('id',$project_id)
+                                 ->update(['name' => $request->name, 
+                                           'description' => $request->description,
+                                           'file_id' => $file_id]); 
+
+            //redirect
+            return back()
+                ->with('success','Project Updated Succefully');
+        }
     }
 
     /**

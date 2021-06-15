@@ -54,6 +54,20 @@ class ObjectiveController extends Controller
                 'active' => 'objectives',
             ]);
 
+        }elseif(Auth::guard('contestant')->check()){
+            // $contestant = Auth::guard('contestant')->user();
+            // $team = Team::find($team_id);
+            // $objectives = $competition->objectives()
+            //         ->orderBy('created_at','desc')
+            //         ->paginate(8);
+
+            // return view('contestant.objectives',[
+            //     'objectives' => $objectives,
+            //     'competition' => $competition,
+            //     'team' => $team,
+            //     'contestant' => $contestant,
+            //     'active' => 'objectives',
+            // ]);
         }
     }
 

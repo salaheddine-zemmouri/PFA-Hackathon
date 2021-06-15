@@ -14,7 +14,7 @@
             mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa
             quis enim.</p>
             <div class="text-center">
-                <button class="btn btn-primary my-btn mt-4">Get Started</button>
+                <a href="{{route('competitions.index')}}" class="btn btn-primary my-btn mt-4">Get Started</a>
             </div>
 
         </div>
