@@ -1,17 +1,22 @@
-@extends('layouts.contestant')
+@extends('layouts.dashboard-layout')
+
+@section('title')
+    <title>Hackathon - Dashboard</title>
+@endsection
+
 <!--ACTION SECTION -->
 @section('actions')
-<div class="col-md-2 offset-1">
-    <a href="#" class="btn btn-warning btn-block shadow" data-toggle="modal" data-target="#joinHackathonModal">
+<div class="col-md-2 d-grid offset-1">
+    <a href="#" class="btn btn-warning btn-block shadow" data-bs-toggle="modal" data-bs-target="#joinHackathonModal">
         <i class="fas fa-plus"></i> Join Hackathon
     </a>
 </div>
-<div class="col-md-4">
-    <a href="#" class="btn btn-success btn-block shadow" data-toggle="modal" data-target="#createTeamModal">
+<div class="col-md-2 d-grid">
+    <a href="#" class="btn btn-success btn-block shadow" data-bs-toggle="modal" data-bs-target="#createTeamModal">
         <i class="fas fa-plus"></i> Create Team
     </a>
 </div>
-<div class="col-md-4 ">
+<div class="col-md-4 offset-2">
     <form method="GET" action="">
         <div class="input-group">
             <input type="text" name="search" id="search" class="form-control shadow-sm" placeholder="Search">
@@ -23,14 +28,14 @@
 </div>
 @endsection
 
-@section('custom-modal')
+@section('customised-modal')
     <!-- JOIN HACKATHON MODAL -->
-    <div class="modal " id="joinHackathonModal">
+    <div class="modal fade " id="joinHackathonModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <div class="modal-header bg-warning text-white">
                     <h5 class="modal-title">Join Hackathon</h5>
-                    <button class="close" data-dismiss="modal">
+                    <button class="close" data-bs-dismiss="modal">
                         <span>&times;</span>
                     </button>
                 </div>
@@ -63,39 +68,13 @@
     </div>
     <!-- ./JOIN CLASS MODAL -->
 
-    <!-- EXIT HACKATHON MODAL -->
-    <div class="modal fade" id="exitClassModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header bg-danger text-white">
-                    <h5 class="modal-title">Attention</h5>
-                    <button class="close" data-dismiss="modal">
-                        <span>&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>Do you really want to exit this class? This process cannot be undone.</p>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-dark" data-dismiss="modal">Back</button>
-                    <form id="exit_class_form" method="POST" action="">
-                        @csrf
-                        @method('DELETE')
-                        <button class="btn btn-danger" type="submit">Exit</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- EXIT HACKATHON MODAL END -->
-
     <!-- CREATE TEAM MODAL -->
-    <div class="modal " id="createTeamModal">
+    <div class="modal fade" id="createTeamModal">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <div class="modal-header bg-success text-white">
                     <h5 class="modal-title">Create Team</h5>
-                    <button class="close" data-dismiss="modal">
+                    <button class="close" data-bs-dismiss="modal">
                         <span>&times;</span>
                     </button>
                 </div>
@@ -134,7 +113,7 @@
     <!-- CREATE HACKATHON MODAL END -->
 @endsection
 
-@section('custom-msg')
+@section('customised-msg')
     @if (session('status'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             <strong>{{session('status')}}</strong>
@@ -152,22 +131,25 @@
 @endsection
 
 @section('content')
-    @foreach ($competitions as $competition)
-    <div class="col-lg-4 col-sm-6 mb-4">
-        <div class="card h-80 shadow-sm">
-            <div class="card-body">
-                <h4 class="card-title">{{$competition->name}}</h4>
-                <p class="card-text">From : {{$competition->start_date}}</p>
-                <p class="card-text">To : {{$competition->end_date}}</p>
-                <a href="#" class="btn btn-primary">Enter</a>
-                <a href="#" class="btn btn-danger">Exit</a>
+    @foreach ($competitions as $team_id => $competition)
+        @foreach ($competition as $team_competition)
+        <div class="col-lg-4 col-sm-6 mb-4">
+            <div class="card h-80 shadow-sm">
+                <div class="card-body">
+                    <h4 class="card-title">{{$team_competition->name}}</h4>
+                    <p class="card-text">Team : {{App\Models\Team::where('id',$team_id)->first()->name}}</p>
+                    <p class="card-text">From : {{$team_competition->start_date}}</p>
+                    <p class="card-text">To : {{$team_competition->end_date}}</p>
+                    <a href={{route('competitions.teams.projects.index',[$team_competition->id,$team_id])}} class="btn btn-primary">Enter</a>
+                    <a href="#" class="btn btn-danger">Exit</a>
+                </div>
             </div>
         </div>
-    </div>
+        @endforeach
     @endforeach
 @endsection 
 
-@section('custom-js')
+@section('customised-js')
 <script type="text/javascript">
         $(document).ready(function(){
             $('#join_competition_form').on('submit', function(e){

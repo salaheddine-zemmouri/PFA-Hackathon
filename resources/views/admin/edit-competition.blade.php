@@ -50,7 +50,7 @@
                     <button class="btn btn-success" type="submit">
                         <i class="fas fa-lock"></i> Save Changes
                     </button>
-                    <a href="{{route('competitions.index')}}" class="btn btn-danger">
+                    <a href={{route('competitions.index')}} class="btn btn-danger">
                         <i class="fas fa-trash"></i> Discard Changes
                     </a>
                 </div>

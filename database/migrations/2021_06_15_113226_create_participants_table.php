@@ -14,9 +14,10 @@ class CreateParticipantsTable extends Migration
     public function up()
     {
         Schema::create('participants', function (Blueprint $table) {
-            $table->primary(['team_id','competition_id']);
+            $table->id();
             $table->foreignId('competition_id')->constrained();
             $table->foreignId('team_id')->constrained();
+            $table->foreignId('project_id')->nullable()->constrained();
             $table->timestamps();
         });
     }

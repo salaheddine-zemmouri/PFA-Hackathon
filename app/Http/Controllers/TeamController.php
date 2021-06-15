@@ -21,15 +21,17 @@ class TeamController extends Controller
      */
     public function index($competition_id)
     {
+        $competition = Competition::find($competition_id);
+        $participations = Participant::where('competition_id',$competition_id)->get();
+        
+        $teams = [];
+        $i = 0;
+        foreach ($participations as $participation) {
+            $teams[$i++] = Team::find($participation->team_id);
+        }
+
         if(Auth::guard('administrator')->check()){
-            $admin = Auth::guard('administrator')->user();
-            $competition = Competition::find($competition_id);
-            $participations = Participant::where('competition_id',$competition_id)->get();
-            $teams = [];
-            $i = 0;
-            foreach ($participations as $participation) {
-                $teams[$i++] = Team::find($participation->team_id);
-            }
+            $admin = Auth::guard('administrator')->user(); 
             return view('admin.teams',[
                 'teams' => $teams,
                 'admin' => $admin,
@@ -38,20 +40,20 @@ class TeamController extends Controller
             ]);
         }elseif(Auth::guard('evaluator')->check()){
             $evaluator = Auth::guard('evaluator')->user();
-            $competition = Competition::find($competition_id);
-            $participations = Participant::where('competition_id',$competition_id)->get();
-            $teams = [];
-            $i = 0;
-            foreach ($participations as $participation) {
-                $teams[$i++] = Team::find($participation->team_id);
-            }
             return view('evaluator.teams',[
                 'teams' => $teams,
                 'evaluator' => $evaluator,
                 'competition' => $competition,
                 'active' => 'teams'
             ]);
-
+        }elseif(Auth::guard('contestant')->check()){
+            $contestant = Auth::guard('contestant')->user();
+            return view('contestant.teams',[
+                'teams' => $teams,
+                'contestant' => $contestant,
+                'competition' => $competition,
+                'active' => 'teams'
+            ]);
         }
     }
 

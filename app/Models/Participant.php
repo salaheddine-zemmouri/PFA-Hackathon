@@ -12,6 +12,7 @@ class Participant extends Model
     protected $fillable = [
         'team_id',
         'competition_id',
+        'project_id',
     ];
     
     public function competitions()

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Hackathon - Competitions</title>
+    @yield('title')
     <!-- Bootstrap CSS link -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
     <!-- Fontawesome CSS link -->
@@ -24,7 +24,13 @@
             <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                 <ul class="navbar-nav">                   
                     <li class="nav-item px-2" id="myCompetitions">
-                        <a href="#" class="nav-link active">My Competitions</a>
+                        <a href="{{ route('competitions.index') }}" class="nav-link active">My Competitions</a>
+                    </li>    
+                    <li class="nav-item px-2" id="competition-objectives">
+                        <a href="{{ route('competitions.teams.projects.index',[$competition->id,$team->id]) }}" class="nav-link @if ($active == 'project') active @endif">Project</a>
+                    </li>             
+                    <li class="nav-item px-2" id="competition-objectives">
+                        <a href="{{ route('competitions.objectives.index',$competition->id) }}" class="nav-link @if ($active == 'objectives') active @endif">Objectives</a>
                     </li>
                 </ul>
 

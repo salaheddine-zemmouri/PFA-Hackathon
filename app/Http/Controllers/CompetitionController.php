@@ -7,10 +7,8 @@ use App\Models\Contestant;
 
 use App\Models\Competition;
 use App\Models\Participant;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Models\CompetitionEvaluatorObjective;
@@ -33,21 +31,22 @@ class CompetitionController extends Controller
             ]);
         }elseif (Auth::guard('contestant')->check()) {
             $participations = [];
-            $competitions = [];
+            $competitions = array(array());
             $contestant = Auth::guard('contestant')->user();
             $teams = Contestant::find($contestant->id)->teams;
             foreach($teams as $team){
                 $participations[$team->team_id] = Participant::where('team_id',$team->team_id)->get();
             }
-            $i = 0;
+            
             foreach($participations as $participation){
+                $i=0;
                 foreach($participation as $teamParticipation)
-                    $competitions[$i++] = Competition::where('id',$teamParticipation->competition_id)->first();
+                    $competitions[$teamParticipation->team_id][$i++] = Competition::where('id',$teamParticipation->competition_id)->first();
             }
             return view('contestant.dashboard',[
                 'contestant' => $contestant,
                 'competitions' => $competitions,
-                
+                'user' => $contestant,
             ]);
         }elseif(Auth::guard('evaluator')->check()){
             $evaluator = Auth::guard('evaluator')->user();
@@ -128,6 +127,7 @@ class CompetitionController extends Controller
             return view('admin.edit-competition',[
                 'competition' => $competition,
                 'admin' => $admin,
+                'user' => $admin,
             ]);
         }
     }
@@ -191,7 +191,8 @@ class CompetitionController extends Controller
             }
             Participant::create([
                 'competition_id' => $competition->id,
-                'team_id' => $team->id
+                'team_id' => $team->id,
+                'project_id' => null,
             ]);
         }
         return response()->json(['success' => '1']);
