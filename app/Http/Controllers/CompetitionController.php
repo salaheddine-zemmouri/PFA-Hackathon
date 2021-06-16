@@ -9,6 +9,7 @@ use App\Models\Competition;
 use App\Models\Participant;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Models\CompetitionEvaluatorObjective;
@@ -34,6 +35,7 @@ class CompetitionController extends Controller
             $competitions = array(array());
             $contestant = Auth::guard('contestant')->user();
             $teams = Contestant::find($contestant->id)->teams;
+    
             foreach($teams as $team){
                 $participations[$team->team_id] = Participant::where('team_id',$team->team_id)->get();
             }
@@ -43,6 +45,7 @@ class CompetitionController extends Controller
                 foreach($participation as $teamParticipation)
                     $competitions[$teamParticipation->team_id][$i++] = Competition::where('id',$teamParticipation->competition_id)->first();
             }
+            //dd($competitions);
             return view('contestant.dashboard',[
                 'contestant' => $contestant,
                 'competitions' => $competitions,

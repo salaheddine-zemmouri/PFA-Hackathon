@@ -12,11 +12,6 @@
 
 
 <div class="col-md-9">
-    @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show">
-            <strong>{{ session('success') }}</strong>
-        </div>
-    @endif
     <div class="card shadow-sm">
         <div class="card-header">
             <h4>Add Project</h4>

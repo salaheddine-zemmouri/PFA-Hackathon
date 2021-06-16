@@ -6,6 +6,7 @@ use App\Models\Team;
 use App\Models\Contestant;
 use App\Models\Competition;
 use App\Models\Participant;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\TeamSubscription;
 use App\Mail\ContestantAlertMail;
@@ -33,6 +34,11 @@ class TeamController extends Controller
         foreach ($participations as $participation) {
             $teams[$i++] = Team::find($participation->team_id);
         }
+
+        /*foreach($teams as $team){
+            dd($team->projects()->where('competition_id',2)->get());
+        }*/
+        //dd($competition->participants()->where('team_id',4)->first()['project_id']);
 
         if(Auth::guard('administrator')->check()){
             $admin = Auth::guard('administrator')->user(); 
@@ -94,7 +100,7 @@ class TeamController extends Controller
             if($i>3){
                 $user = DB::table('contestants')->where('email','=',$key)->first();
                 if($user == null){
-                    $password = "password";
+                    $password = Str::random(15);
                     Contestant::create([
                         'name' => $key,
                         'email' => $key,

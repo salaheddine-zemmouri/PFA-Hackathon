@@ -64,3 +64,6 @@ Route::resource('/team',TeamController::class);
 Route::resource('/competitions.evaluators',EvaluatorController::class)->only(['index','store','destroy']);
 
 Route::resource('/competitions.teams.projects',ProjectController::class);
+
+Route::get('/download/{project_id}',[ProjectController::class,'downloadFile'])->name('download.project');
+Route::delete('/delete-file/{project_id}',[ProjectController::class,'deleteFile']);
