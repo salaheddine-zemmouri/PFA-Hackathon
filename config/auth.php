@@ -136,6 +136,18 @@ return [
             'expire' => 60,
             'throttle' => 60,
         ],
+        'evaluators' => [
+            'provider' => 'evaluators',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'contestants' => [
+            'provider' => 'contestants',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
     ],
 
     /*

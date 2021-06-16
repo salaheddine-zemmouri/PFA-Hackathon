@@ -1,6 +1,5 @@
 <?php
-
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Auth\LoginController;
@@ -11,13 +10,11 @@ use App\Http\Controllers\ObjectiveController;
 use App\Http\Controllers\EvaluatorController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TeamController;
-use App\Http\Controllers\ValidatedObjectiveController;
-use App\Models\Competition;
-use Illuminate\Support\Facades\Hash;
-use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
+use Illuminate\Support\Facades\Password;
 
+use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-use PharIo\Manifest\Email;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,10 +26,6 @@ use PharIo\Manifest\Email;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/test', function () {
-      dd(Hash::make('password'));
-});
 
 
 Route::get('/', function () {
@@ -64,3 +57,63 @@ Route::resource('/team',TeamController::class);
 Route::resource('/competitions.evaluators',EvaluatorController::class)->only(['index','store','destroy']);
 
 Route::resource('/competitions.teams.projects',ProjectController::class);
+
+
+
+
+/*
+-------------------------------------------------------------------------- 
+                        Password reset
+--------------------------------------------------------------------------
+*/
+
+Route::get('/forgot-password',function(){
+    return  view('auth.forgot-password');
+})->middleware('guest')->name('password.request');
+
+Route::post('/forgot-password',function(Request $request){
+    $request->validate([
+        'email' => 'required|email',
+        'radio' => 'required'
+        ]);
+
+    $status = Password::broker($request->radio)->sendResetLink(
+        $request->only('email')
+    );
+
+    return $status === Password::RESET_LINK_SENT 
+    ? back()-> with(['status' => __($status)])
+    : back()->withErrors(['email'=>__($status)]);
+})->middleware('guest')->name('password.email');
+
+
+Route::get('/reset-password/{token}', function ($token) {
+    return view('auth.reset-password', ['token' => $token]);
+})->middleware('guest')->name('password.reset');
+
+
+Route::post('/reset-password', function (Request $request) {
+    $request->validate([
+        'token' => 'required',
+        'radio' => 'required',
+        'email' => 'required|email',
+        'password' => 'required',
+    ]);
+
+    $status = Password::broker($request->radio)->reset(
+        $request->only('email', 'password', 'token'),
+        function ($user, $password) {
+            $user->forceFill([
+                'password' => Hash::make($password)
+            ])->setRememberToken(Str::random(60));
+
+            $user->save();
+
+            event(new PasswordReset($user));
+        }
+    );
+
+    return $status === Password::PASSWORD_RESET
+                ? redirect()->route('login')->with('status', __($status))
+                : back()->withErrors(['email' => [__($status)]]);
+})->middleware('guest')->name('password.update');

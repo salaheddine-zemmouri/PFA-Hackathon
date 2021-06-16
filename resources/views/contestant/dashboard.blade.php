@@ -135,12 +135,18 @@
         @foreach ($competition as $team_competition)
         <div class="col-lg-4 col-sm-6 mb-4">
             <div class="card h-80 shadow-sm">
+                <div class="card-header">
+                    <h4>{{$team_competition->name}}</h4>
+                </div>
                 <div class="card-body">
-                    <h4 class="card-title">{{$team_competition->name}}</h4>
                     <p class="card-text">Team : {{App\Models\Team::where('id',$team_id)->first()->name}}</p>
                     <p class="card-text">From : {{$team_competition->start_date}}</p>
                     <p class="card-text">To : {{$team_competition->end_date}}</p>
-                    <a href={{route('competitions.teams.projects.index',[$team_competition->id,$team_id])}} class="btn btn-primary">Enter</a>
+                    <p class="card-text">Hackathon will be available in : 
+                        {{\Carbon\Carbon::parse($team_competition->start_date)->diffInDays(\Carbon\Carbon::parse(\Carbon\Carbon::now()))}} days
+                    </p>
+                    <a href={{route('competitions.teams.projects.index',[$team_competition->id,$team_id])}} class="btn btn-primary 
+                        @if(\Carbon\Carbon::parse($team_competition->start_date)->diffInDays(\Carbon\Carbon::parse(\Carbon\Carbon::now()))!==0) disabled @endif">Enter</a>
                     <a href="#" class="btn btn-danger">Exit</a>
                 </div>
             </div>
