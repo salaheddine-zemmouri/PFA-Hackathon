@@ -6,7 +6,7 @@
 
 @section('actions')
 <div class="col-md-4 offset-1 d-grid">
-    <a href="{{route('competitions.teams.projects.create',[$competition->id,$team->id])}}" class="btn btn-success btn-block shadow @if($project) disabled @endif">
+    <a href="{{route('competitions.teams.projects.create',[$competition->id,$team->id])}}" class="btn btn-success btn-block shadow @if($project || !$leader) disabled @endif">
         <i class="fas fa-plus"></i> Add Project
     </a>
 </div>
@@ -78,7 +78,7 @@
                                 <td><a href="#"><i class="far fa-file-alt"></i> {{$file->file_path}}</a></td>
                                 <td></td>
                                 <td>
-                                    <a href="#" class="btn btn-danger" id="delete_file" data-bs-toggle="modal" data-bs-target="#deleteFileModal"><i class="fas fa-trash"></i></a>
+                                    <a href="#" class="btn btn-danger @if(!$leader) disabled @endif" id="delete_file" data-bs-toggle="modal" data-bs-target="#deleteFileModal"><i class="fas fa-trash"></i></a>
                                 </td>
                             </tr>
                         </table>

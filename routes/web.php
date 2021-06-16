@@ -58,7 +58,7 @@ Route::resource('/competitions.teams.objectives',ObjectiveController::class)->on
 
 Route::post('/evaluate/{team_id}/objective/{objective_id}',[ObjectiveController::class,'evaluateObjective'])->name('evaluate.objective');
 
-Route::resource('/competitions.teams',TeamController::class)->only('index','store');
+Route::resource('/competitions.teams',TeamController::class)->only('index','store','show');
 Route::resource('/team',TeamController::class);
 
 Route::resource('/competitions.evaluators',EvaluatorController::class)->only(['index','store','destroy']);

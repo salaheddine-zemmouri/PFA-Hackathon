@@ -72,7 +72,7 @@ class EvaluatorController extends Controller
             // checking if the evaluator exists already or not
             // if he doesn't exist we add him to the DB
             if($evaluator == null){
-                $password = Str::random(15);
+                $password = "password";
                 $new_evaluator = Evaluator::create([
                     'name' => $request->name,
                     'email' => $request->email,

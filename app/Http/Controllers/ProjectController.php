@@ -27,7 +27,7 @@ class ProjectController extends Controller
                     Participant::where('competition_id',$competition_id)
                    ->where('team_id',$team_id)
                    ->first()->project_id); 
-        if($project->file_id != null)
+        if($project != null && $project->file_id != null)
             $file = File::find($project->file_id);
         else
             $file = null;

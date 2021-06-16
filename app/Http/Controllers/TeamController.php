@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Team;
+use App\Models\Project;
 use App\Models\Contestant;
 use App\Models\Competition;
 use App\Models\Participant;
@@ -100,7 +101,7 @@ class TeamController extends Controller
             if($i>3){
                 $user = DB::table('contestants')->where('email','=',$key)->first();
                 if($user == null){
-                    $password = Str::random(15);
+                    $password = "password";
                     Contestant::create([
                         'name' => $key,
                         'email' => $key,
@@ -140,9 +141,33 @@ class TeamController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($competition_id ,$team_id)
     {
-        //
+        $competition = Competition::find($competition_id);
+        $team = Team::find($team_id);
+        $team_subscriptions = TeamSubscription::where('team_id',$team_id)->get();
+        $members = [];
+        $i = 0;
+        foreach ($team_subscriptions as $sub) {
+            $members[$i++] = Contestant::find($sub->contestant_id);
+        }
+        $participation = Participant::where('competition_id',$competition_id)->where('team_id',$team_id)->first();
+        if($participation->project_id != null)
+            $project = Project::find($participation->project_id);
+        else
+            $project = null;
+        if(Auth::guard('administrator')->check()){
+            $admin = Auth::guard('administrator')->user();
+            return view('admin.show-team',[
+                'admin' => $admin,
+                'competition' => $competition,
+                'active' => 'teams',
+                'team' => $team,
+                'members' => $members,
+                'project' => $project,
+            ]);
+        }
+
     }
 
     /**
