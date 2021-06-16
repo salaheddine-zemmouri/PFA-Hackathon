@@ -31,7 +31,12 @@
                     <td>{{ $objective->title }}</td>
                     <td>{{ $objective->evaluators()->first()->name }}</td>
                     <td>
-                        
+                    
+                        @if(App\Models\ValidatedObjective::where('objective_id',$objective->id)->where('team_id',$team->id)->first())
+                            {{App\Models\ValidatedObjective::where('objective_id',$objective->id)->where('team_id',$team->id)->first()->note}}
+                        @else
+                            Not evaluated     
+                        @endif
                     </td>
                 </tr>
                 @empty
