@@ -18,6 +18,10 @@ class Team extends Model
     public function objectives(){
         return $this->belongsToMany(Objective::class,'validated_objectives');
     }
+
+    public function projects(){
+        return $this->belongsToMany(Project::class,'participants');
+    }
     
     
 

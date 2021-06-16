@@ -51,13 +51,14 @@ Route::get('/competitions/{competition_id}/teams/{team_id}/objectives',[Objectiv
 
 Route::post('/evaluate/{team_id}/objective/{objective_id}',[ObjectiveController::class,'evaluateObjective'])->name('evaluate.objective');
 
-Route::resource('/competitions.teams',TeamController::class)->only('index','store');
+Route::resource('/competitions.teams',TeamController::class)->only('index','store','show');
 Route::resource('/team',TeamController::class);
 
 Route::resource('/competitions.evaluators',EvaluatorController::class)->only(['index','store','destroy']);
 
 Route::resource('/competitions.teams.projects',ProjectController::class);
-
+Route::get('/download/{project_id}',[ProjectController::class,'downloadFile'])->name('download.project');
+Route::delete('/delete-file/{project_id}',[ProjectController::class,'deleteFile']);
 
 
 
@@ -117,3 +118,6 @@ Route::post('/reset-password', function (Request $request) {
                 ? redirect()->route('login')->with('status', __($status))
                 : back()->withErrors(['email' => [__($status)]]);
 })->middleware('guest')->name('password.update');
+
+
+

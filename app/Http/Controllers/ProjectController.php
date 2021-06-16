@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Competition;
+use App\Models\File;
 use App\Models\Team;
-use App\Models\Participant;
 use App\Models\Project;
-use App\Models\TeamSubscription;
+use App\Models\Competition;
+use App\Models\Participant;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Models\TeamSubscription;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class ProjectController extends Controller
 {
@@ -26,6 +27,10 @@ class ProjectController extends Controller
                     Participant::where('competition_id',$competition_id)
                    ->where('team_id',$team_id)
                    ->first()->project_id); 
+        if($project != null && $project->file_id != null)
+            $file = File::find($project->file_id);
+        else
+            $file = null;
         if(Auth::guard('contestant')->check()){
             $contestant = Auth::guard('contestant')->user();
             $leader = TeamSubscription::where('contestant_id',$contestant->id)
@@ -37,7 +42,8 @@ class ProjectController extends Controller
                 'contestant' => $contestant,
                 'leader' => $leader,
                 'project' => $project,
-                'active' => 'project'
+                'active' => 'project',
+                'file' => $file,
             ]);
         }
     }
@@ -81,9 +87,9 @@ class ProjectController extends Controller
         // store the file in Files
         if($request->hasFile('file')){
             $fileName = time().'_'.$request->file->getClientOriginalName();
-            $filePath = $request->file('file')->storeAs('public/uploads', $fileName);
+            $request->file('file')->move(public_path().'/uploads/', $fileName);
             $file_id = DB::table('files')->insertGetId(
-                ['file_path' => $filePath]
+                ['file_path' => $fileName]
             );
             
             // store project in Projects
@@ -98,8 +104,8 @@ class ProjectController extends Controller
               ->where('team_id',$team_id)
               ->update(['project_id' => $project_id]);
             //redirect
-            return back()
-                ->with('success','Project submitted Succefully');
+            $request->session()->flash('project_created', 'Project Submitted Succefully');
+            return redirect()->route('competitions.teams.projects.index',[$competition_id,$team_id]);
         }
     }
 
@@ -143,9 +149,10 @@ class ProjectController extends Controller
         // store the file in Files
         if($request->hasFile('file')){
             $fileName = time().'_'.$request->file->getClientOriginalName();
-            $filePath = $request->file('file')->storeAs('public/uploads', $fileName);
+            //$filePath = $request->file('file')->storeAs(public_path().'/uploads/', $fileName);
+            $request->file('file')->move(public_path().'/uploads/', $fileName);
             $file_id = DB::table('files')->insertGetId(
-                ['file_path' => $filePath]
+                ['file_path' => $fileName]
             );
             
             // update project
@@ -155,8 +162,8 @@ class ProjectController extends Controller
                                            'file_id' => $file_id]); 
 
             //redirect
-            return back()
-                ->with('success','Project Updated Succefully');
+            $request->session()->flash('project_updated','Project Updated Succefully');
+            return redirect()->route('competitions.teams.projects.index',[$competition_id,$team_id]);
         }
     }
 
@@ -169,5 +176,24 @@ class ProjectController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function downloadFile($project_id){
+        $project = Project::find($project_id);
+        $file = File::find($project->file_id);
+        //dd($file);
+        if($file != null){
+            return response()->download(public_path('/uploads/'.$file->file_path));
+        }
+        //return response()->download(public_path('/homework_files/'.$fileName));
+    }
+
+    public function deleteFile($project_id){
+        $project = Project::find($project_id);
+        $file = File::find($project->file_id);
+        $project->file_id = null;
+        $project->save();
+        $file->delete();
+        return back();
     }
 }

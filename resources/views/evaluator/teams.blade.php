@@ -35,11 +35,17 @@
                         <input type="hidden" id="team-id" name="team-id" value="{{ $team->id }}">
                     </td>
                     <td>{{ $team->name }}</td>
+                    @if ($competition->participants()->where('team_id',$team->id)->first()['project_id'] != null)
                     <td>
-                        <a href="#" class="btn btn-light download-work">
+                        <a href="{{ route('download.project', $competition->participants()->where('team_id',$team->id)->first()['project_id']) }}" class="btn btn-light download-work">
                             <i class="fas fa-download"></i>
                         </a>
                     </td>
+                    @else
+                    <td>
+                        No data yet!
+                    </td>
+                    @endif
                 </tr>
                 @empty
                 <tr>

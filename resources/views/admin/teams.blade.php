@@ -33,7 +33,7 @@
                     </td>
                     <td>{{ $team->name }}</td>
                     <td>
-                        <a href="#" class="btn btn-light view-team">
+                        <a href="{{ route('competitions.teams.show',[$competition->id,$team->id]) }}" class="btn btn-light view-team">
                             <i class="fas fa-info-circle"></i>
                         </a>
                     </td>

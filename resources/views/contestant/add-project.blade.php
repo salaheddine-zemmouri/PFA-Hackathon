@@ -12,11 +12,6 @@
 
 
 <div class="col-md-9">
-    @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show">
-            <strong>{{ session('success') }}</strong>
-        </div>
-    @endif
     <div class="card shadow-sm">
         <div class="card-header">
             <h4>Add Project</h4>
@@ -45,6 +40,7 @@
                 <div class="form-group mb-3">
                     <label for="project_file" class="form-label">Upload File</label>
                     <input class="form-control @error('description') is-invalid @enderror" type="file" id="project_file" name="file">
+                    <small class="form-text text-muted">Authorized extensions : pdf,zip,rar</small>
                     @error('file')
                         <span class="invalid-feedback">
                             <strong id="file_error">{{ $message }}</strong>
