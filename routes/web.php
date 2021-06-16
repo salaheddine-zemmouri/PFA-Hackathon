@@ -54,7 +54,7 @@ Route::resource('/competitions',Competitioncontroller::class);
 Route::post('/join',[Competitioncontroller::class,'join'])->name('joinCompetition');
 
 Route::resource('/competitions.objectives',ObjectiveController::class)->only(['index','store','edit','update','destroy']);
-Route::resource('/competitions.teams.objectives',ObjectiveController::class)->only(['index']);
+Route::get('/competitions/{competition_id}/teams/{team_id}/objectives',[ObjectiveController::class,'listAll'])->name('listAllObjectives');
 
 Route::post('/evaluate/{team_id}/objective/{objective_id}',[ObjectiveController::class,'evaluateObjective'])->name('evaluate.objective');
 

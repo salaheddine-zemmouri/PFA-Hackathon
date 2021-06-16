@@ -30,7 +30,7 @@
                         <a href="{{ route('competitions.teams.projects.index',[$competition->id,$team->id]) }}" class="nav-link @if ($active == 'project') active @endif">Project</a>
                     </li>             
                     <li class="nav-item px-2" id="competition-objectives">
-                        <a href="{{ route('competitions.teams.objectives.index',[$competition->id,$team->id]) }}" class="nav-link @if ($active == 'objectives') active @endif">Objectives</a>
+                        <a href="{{ route('listAllObjectives',[$competition->id,$team->id]) }}" class="nav-link @if ($active == 'objectives') active @endif">Objectives</a>
                     </li>
                 </ul>
 
