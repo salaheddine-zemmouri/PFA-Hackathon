@@ -16,9 +16,8 @@
       </div>
 
       <div class="col-6 d-flex justify-content-center align-items-center">
-        <div class="form-container w-75">
-          <div class="m-5 row justify-content-center ">
-
+        <div class="form-container w-70">
+          <div class="ms-5 me-5 mt-3 mb-3 row justify-content-center">
               <h3 class="text-center color-primary mb-4">Sign Up</h3>
               <h6 class="text-center color-secondary fw-light mb-4">Who are you ?</h6>
               <form action="{{route('register')}}" method="POST" class="mb-4">
@@ -78,17 +77,6 @@
                   </div>
                   <button type="submit" class="btn btn-primary ps-5 pe-5 btn-circle ">Create Account</button>
               </form>
-
-              <div class="mb-4 d-flex align-items-center or-container m-1">
-                  <div class="col-5 line-separator"></div>
-                  <div class="col text-center"> or </div>
-                  <div class="col-5 line-separator"></div>
-              </div>
-
-              <div class="mb-4 btn btn-outline-primary p-2">
-                <img src={{asset('images/google-logo.svg')}} class="google-logo">
-                <span>Continue With Google</span>
-              </div>
 
 
 

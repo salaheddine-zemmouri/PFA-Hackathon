@@ -83,16 +83,6 @@
                   <button type="submit" class="btn btn-primary ps-5 pe-5 btn-circle ">Login</button>
               </form>
 
-              <div class="mb-4 d-flex align-items-center or-container m-1">
-                  <div class="col-5 line-separator"></div>
-                  <div class="col text-center"> or </div>
-                  <div class="col-5 line-separator"></div>
-              </div>
-
-              <div class="mb-4 btn btn-outline-primary p-2">
-                <img src={{asset('images/google-logo.svg')}} class="google-logo">
-                <span>Sign-in Using Google</span>
-              </div>
 
 
 
