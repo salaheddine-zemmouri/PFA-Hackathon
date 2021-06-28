@@ -27,6 +27,10 @@ use Illuminate\Support\Str;
 |
 */
 
+// Route::get('/test', function () {
+//     dd()
+// });
+
 
 Route::get('/', function () {
     return view('landing');

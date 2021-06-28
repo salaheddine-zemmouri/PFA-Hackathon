@@ -11,7 +11,8 @@ There are your credentials to login.
 1. Enter your email: <b>{{$details['contestant_email']}}</b> <br>
 1. Enter your default password: <b>{{$details['contestant_password']}}</b> <br>
 
-# Don't forget to change your default password
+# You can change your default password by pressing the link below : 
+<a href="http://127.0.0.1:8000/forgot-password">Request New Password</a>
 
 Thanks,<br>
 {{ config('app.name') }}

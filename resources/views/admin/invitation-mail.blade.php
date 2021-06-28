@@ -9,10 +9,11 @@ There are your credentials to login.
 
 1. Go to <b><a href="http://127.0.0.1:8000/login">Hackathon Login Page</a></b> <br>
 1. Enter your email: <b>{{$details['evaluator_email']}}</b> <br>
-1. Enter your default password: <b>{{$details['evaluator_password']}}</b> <br>
+1. Enter your default password : <b>{{$details['evaluator_password']}}</b> <br>
 1. That's your dashboard. Go to <b>{{$details['competition_name']}}</b> <br>
 
-# Don't forget to change your default password
+# You can change your default password by pressing the link below : 
+<a href="http://127.0.0.1:8000/forgot-password">Request New Password</a>
 
 Thanks,<br>
 {{ config('app.name') }}

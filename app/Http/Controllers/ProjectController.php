@@ -162,8 +162,8 @@ class ProjectController extends Controller
                                            'file_id' => $file_id]); 
 
             //redirect
-            $request->session()->flash('project_updated','Project Updated Succefully');
-            return redirect()->route('competitions.teams.projects.index',[$competition_id,$team_id]);
+            // $request->session()->flash('project_updated','Project Updated Succefully');
+            return redirect()->route('competitions.teams.projects.index',[$competition_id,$team_id])->with('session','Project Updated Succefully');
         }
     }
 

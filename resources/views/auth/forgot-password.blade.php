@@ -12,7 +12,7 @@
     <div class="h-full d-flex justify-content-center align-items-center">
         <div class="form-container w-50">
           <div class="ms-5 me-5 mt-3 mb-3 row justify-content-center ">
-              <h3 class="text-center color-primary mb-4">Forgot Password</h3>
+              <h3 class="text-center color-primary mb-4">Request Password</h3>
               @if (session('status'))
                 <div class="alert alert-success text-center">
                   {{session('status')}}

@@ -101,7 +101,7 @@ class TeamController extends Controller
             if($i>3){
                 $user = DB::table('contestants')->where('email','=',$key)->first();
                 if($user == null){
-                    $password = "password";
+                    $password = Str::random(20);
                     Contestant::create([
                         'name' => $key,
                         'email' => $key,

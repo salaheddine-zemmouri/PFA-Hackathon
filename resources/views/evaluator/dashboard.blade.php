@@ -22,8 +22,11 @@
 @foreach ($competitions as $competition)
 <div class="col-lg-4 col-sm-6 mb-4">
     <div class="card h-80 shadow-sm">
-        <div class="card-body">
+        <div class="card-header">
             <h4 class="card-title">{{$competition->name}}</h4>
+        </div>
+        <div class="card-body">
+            
             <p class="card-text">From : {{$competition->start_date}}</p>
             <p class="card-text">To : {{$competition->end_date}}</p>
             <table>
